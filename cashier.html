@@ -179,6 +179,19 @@
 
         .hidden { display: none !important; }
         .flex { display: flex !important; }
+        /* تعديل شكل الكارت ليناسب عدم وجود صورة */
+.product-card {
+    min-height: 150px; /* يعطي طول مناسب للكرت */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--white); /* أو اللون المناسب في ملف الادمن */
+    border: 1px solid #e5e7eb;
+}
+
+.p-img-wrapper {
+    display: none; /* إخفاء حاوية الصور تماماً */
+}
     </style>
 </head>
 <body>
@@ -523,32 +536,35 @@
 
         /* === المنتجات === */
         function renderProducts() {
-            if (!appData) return;
-            var grid = document.getElementById('products-grid');
-            grid.innerHTML = '';
-            var items = activeCat === "الكل"
-                ? appData.products
-                : appData.products.filter(function(p) { return p.cat === activeCat; });
-            document.getElementById('page-title').innerText = activeCat === "الكل" ? "جميع المنتجات" : activeCat;
+    if (!appData) return;
+    var grid = document.getElementById('products-grid');
+    grid.innerHTML = '';
+    var items = activeCat === "الكل"
+        ? appData.products
+        : appData.products.filter(function(p) { return p.cat === activeCat; });
+    document.getElementById('page-title').innerText = activeCat === "الكل" ? "جميع المنتجات" : activeCat;
 
-            if (items.length === 0) {
-                grid.innerHTML = '<div style="grid-column:span 3;text-align:center;color:var(--text-muted);padding:40px;">لا توجد منتجات في هذا القسم</div>';
-                return;
-            }
+    if (items.length === 0) {
+        grid.innerHTML = '<div style="grid-column:span 3;text-align:center;color:var(--text-muted);padding:40px;">لا توجد منتجات في هذا القسم</div>';
+        return;
+    }
 
-            items.forEach(function(p) {
-                var card = document.createElement('div');
-                card.className = 'product-card';
-                card.innerHTML =
-                    '<div class="p-img-wrapper"><img src="https://picsum.photos/seed/' + p.id + '/300/200" class="p-img" loading="lazy" alt="' + p.name + '"></div>' +
-                    '<div class="p-details">' +
-                    '<div class="p-name">' + p.name + '</div>' +
-                    '<div class="p-price">' + p.price.toFixed(2) + ' ج.م</div>' +
-                    '<button class="btn-add-cart" onclick="addToCart(' + p.id + ')"><span>➕ أضف للسلة</span></button>' +
-                    '</div>';
-                grid.appendChild(card);
-            });
-        }
+    items.forEach(function(p) {
+        var card = document.createElement('div');
+        card.className = 'product-card';
+        // تم إلغاء الصورة هنا وإضافة استايل بسيط للكرت
+        card.style.padding = "20px";
+        card.style.textAlign = "center";
+        
+        card.innerHTML =
+            '<div class="p-details" style="padding:0">' +
+            '<div class="p-name" style="font-size:1.3rem; margin-bottom:10px; min-height:auto;">' + p.name + '</div>' +
+            '<div class="p-price" style="font-size:1.4rem; margin-bottom:15px;">' + p.price.toFixed(2) + ' ج.م</div>' +
+            '<button class="btn-add-cart" onclick="addToCart(' + p.id + ')"><span>➕ إضافة للطلب</span></button>' +
+            '</div>';
+        grid.appendChild(card);
+    });
+}
 
         /* === السلة === */
         function addToCart(id) {
