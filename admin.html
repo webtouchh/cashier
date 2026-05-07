@@ -44,10 +44,13 @@
         .user-login-btn .uli-avatar { width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; color: white; }
         .user-login-btn .uli-name { font-weight: 700; font-size: 0.95rem; }
         .user-login-btn .uli-role { font-size: 0.75rem; padding: 2px 10px; border-radius: 20px; font-weight: 600; }
+        
+        /* أدوار النظام - تم إضافة الكاشير */
         .role-admin { background: rgba(239,68,68,0.2); color: #fca5a5; }
         .role-sales { background: rgba(99,102,241,0.2); color: #a5b4fc; }
         .role-reports { background: rgba(6,182,212,0.2); color: #67e8f9; }
-        .role-cashier { background: rgba(245,158,11,0.2); color: #fcd34d; }
+        .role-cashier { background: rgba(249,115,22,0.2); color: #fdba74; } /* كاشير */
+
         .phone-display { background: #000; color: #10b981; font-family: monospace; font-size: 2.2rem; padding: 15px; border-radius: 10px; margin-bottom: 10px; letter-spacing: 8px; min-height: 60px; }
         .login-error { color: var(--danger); font-size: 0.85rem; min-height: 20px; margin-bottom: 10px; }
         .numpad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
@@ -182,7 +185,7 @@
     <div id="login-overlay">
         <div class="login-card">
             <h2>🔐 تسجيل الدخول</h2>
-            <div class="login-sub">اختر حسابك للمتابعة</div>
+            <div class="login-sub">اختر حسابك للمتابعة (للإدارة فقط)</div>
             <div id="user-selection" class="users-login-grid"></div>
             <div id="keypad-area" class="hidden">
                 <button onclick="backToUsers()" style="background:none; border:1px solid var(--border); color:var(--text-muted); padding:5px 12px; border-radius:8px; cursor:pointer; margin-bottom:10px; font-family:'Tajawal',sans-serif;">🔙 عودة</button>
@@ -323,15 +326,15 @@
                 <div class="stat-card" style="margin-bottom:20px;padding:18px;border-color:var(--primary);">
                     <div style="font-weight:800;font-size:1rem;margin-bottom:12px;color:var(--primary);">📋 جدول الصلاحيات</div>
                     <table style="width:100%;font-size:0.85rem;">
-                        <thead><tr style="border-bottom:2px solid var(--border);"><th style="padding:8px;color:var(--text-muted);">الصلاحية</th><th style="padding:8px;color:var(--danger);">مدير كامل</th><th style="padding:8px;color:var(--accent);">مدير مبيعات</th><th style="padding:8px;color:var(--success);">مشاهد تقارير</th></tr></thead>
+                        <thead><tr style="border-bottom:2px solid var(--border);"><th style="padding:8px;color:var(--text-muted);">الصلاحية</th><th style="padding:8px;color:var(--danger);">مدير كامل</th><th style="padding:8px;color:var(--accent);">مدير مبيعات</th><th style="padding:8px;color:var(--success);">مشاهد تقارير</th><th style="padding:8px;color:var(--orange);">كاشير</th></tr></thead>
                         <tbody>
-                            <tr><td style="padding:6px 8px;">نظرة عامة</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td></tr>
-                            <tr><td style="padding:6px 8px;">المنتجات</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">❌</td></tr>
-                            <tr><td style="padding:6px 8px;">التقارير</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td></tr>
-                            <tr><td style="padding:6px 8px;">المصروفات</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">❌</td></tr>
-                            <tr><td style="padding:6px 8px;">إلغاء طلبات</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">❌</td></tr>
-                            <tr><td style="padding:6px 8px;">المستخدمين</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">❌</td><td style="padding:6px 8px;text-align:center;">❌</td></tr>
-                            <tr><td style="padding:6px 8px;">إنهاء/بدء اليوم</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">❌</td><td style="padding:6px 8px;text-align:center;">❌</td></tr>
+                            <tr><td style="padding:6px 8px;">نظرة عامة</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">❌</td></tr>
+                            <tr><td style="padding:6px 8px;">المنتجات</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">❌</td><td style="padding:6px 8px;text-align:center;">❌</td></tr>
+                            <tr><td style="padding:6px 8px;">التقارير</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">❌</td></tr>
+                            <tr><td style="padding:6px 8px;">المصروفات</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">❌</td><td style="padding:6px 8px;text-align:center;">❌</td></tr>
+                            <tr><td style="padding:6px 8px;">إلغاء طلبات</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">❌</td><td style="padding:6px 8px;text-align:center;">❌</td></tr>
+                            <tr><td style="padding:6px 8px;">المستخدمين</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">❌</td><td style="padding:6px 8px;text-align:center;">❌</td><td style="padding:6px 8px;text-align:center;">❌</td></tr>
+                            <tr><td style="padding:6px 8px;">إنهاء/بدء اليوم</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">❌</td><td style="padding:6px 8px;text-align:center;">❌</td><td style="padding:6px 8px;text-align:center;">❌</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -344,6 +347,8 @@
                             <option value="admin">🔴 مدير كامل</option>
                             <option value="sales">🔵 مدير مبيعات</option>
                             <option value="reports">🟢 مشاهد تقارير</option>
+                            <!-- تمت إضافة خيار الكاشير -->
+                            <option value="cashier">🟠 كاشير (نقاط البيع)</option>
                         </select>
                     </div>
                     <button class="btn-add" onclick="addUser()">➕ إضافة مستخدم</button>
@@ -375,6 +380,7 @@
         }
 
         /* ===== أسماء الصلاحيات بالعربي ===== */
+        // تم إضافة دور الكاشير
         const ROLE_NAMES = { admin: 'مدير كامل', sales: 'مدير مبيعات', reports: 'مشاهد تقارير', cashier: 'كاشير' };
         const ROLE_CSS = { admin: 'role-admin', sales: 'role-sales', reports: 'role-reports', cashier: 'role-cashier' };
 
@@ -384,6 +390,8 @@
                 case 'admin': return { dashboard: true, products: true, sales: true, users: true, expenses: true, cancelOrders: true, endDay: true };
                 case 'sales': return { dashboard: true, products: true, sales: true, users: false, expenses: true, cancelOrders: true, endDay: false };
                 case 'reports': return { dashboard: true, products: false, sales: true, users: false, expenses: false, cancelOrders: false, endDay: false };
+                // الكاشير ليس له صلاحيات الدخول للوحة التحكم
+                case 'cashier': return { dashboard: false, products: false, sales: false, users: false, expenses: false, cancelOrders: false, endDay: false };
                 default: return { dashboard: false, products: false, sales: false, users: false, expenses: false, cancelOrders: false, endDay: false };
             }
         }
@@ -737,12 +745,12 @@
         function cancelEditPass(id){document.getElementById('pass-cell-'+id).style.display='flex';document.getElementById('pass-edit-'+id).style.display='none';document.getElementById('pass-btns-'+id).innerHTML='<button class="btn-sm btn-edit" onclick="startEditPass('+id+')">🔑</button>';}
         async function saveNewPass(id){var p=document.getElementById('pass-new-'+id).value.trim();if(!p){showToast("أدخل الباسورد","error");return;}var u=(appData.users||[]).find(x=>x.id===id);if(u){u.pass=p;await saveField({users:appData.users});showToast("تم تغيير الباسورد","success");}}
 
-        /* تعديل صلاحية مستخدم */
+        /* تعديل صلاحية مستخدم - تمت إضافة خيار الكاشير */
         function startEditRole(id){
             var u=(appData.users||[]).find(x=>x.id===id);
             if(!u)return;
             var cell=document.querySelector('tr td:nth-child(5)');
-            cell.innerHTML='<select id="role-select-'+id+'" class="input-field" style="padding:5px 8px;font-size:0.85rem;"><option value="admin"'+(u.role==='admin'?' selected':'')+'>🔴 مدير كامل</option><option value="sales"'+(u.role==='sales'?' selected':'')+'>🔵 مدير مبيعات</option><option value="reports"'+(u.role==='reports'?' selected':'')+'>🟢 مشاهد تقارير</option></select><button class="btn-sm" style="background:var(--success);margin-right:5px;" onclick="saveNewRole('+id+')">✓</button><button class="btn-sm btn-del" onclick="renderUsersTable()">✗</button>';
+            cell.innerHTML='<select id="role-select-'+id+'" class="input-field" style="padding:5px 8px;font-size:0.85rem;"><option value="admin"'+(u.role==='admin'?' selected':'')+'>🔴 مدير كامل</option><option value="sales"'+(u.role==='sales'?' selected':'')+'>🔵 مدير مبيعات</option><option value="reports"'+(u.role==='reports'?' selected':'')+'>🟢 مشاهد تقارير</option><option value="cashier"'+(u.role==='cashier'?' selected':'')+'>🟠 كاشير</option></select><button class="btn-sm" style="background:var(--success);margin-right:5px;" onclick="saveNewRole('+id+')">✓</button><button class="btn-sm btn-del" onclick="renderUsersTable()">✗</button>';
         }
         async function saveNewRole(id){
             var sel=document.getElementById('role-select-'+id);
