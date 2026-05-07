@@ -10,11 +10,11 @@
     <style>
         :root {
             --bg-dark: #0f172a; --bg-card: #1e293b; --primary: #6366f1; --accent: #06b6d4;
-            --text-main: #f1f5f9; --text-muted: #94a3b8; --danger: #ef4444; --success: #10b981; --warning: #f59e0b; --border: #334155;
-            --net-profit: #8b5cf6;
+            --text-main: #f1f5f9; --text-muted: #94a3b8; --danger: #ef4444; --success: #10b981;
+            --warning: #f59e0b; --border: #334155; --net-profit: #8b5cf6; --orange: #f97316;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
-        body { font-family: 'Tajawal', sans-serif; background-color: var(--bg-dark); color: var(--text-main); height: 100vh; overflow: hidden; }
+        body { font-family: 'Tajawal', sans-serif; background: var(--bg-dark); color: var(--text-main); height: 100vh; overflow: hidden; }
 
         #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); z-index: 9000; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px; }
         .spinner { width: 50px; height: 50px; border: 4px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
@@ -31,15 +31,27 @@
         #conn-status { position: fixed; bottom: 15px; left: 15px; z-index: 8000; display: none; align-items: center; gap: 8px; padding: 8px 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; font-size: 0.8rem; color: var(--text-muted); }
         .conn-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); animation: pulse 2s infinite; }
         .conn-dot.offline { background: var(--danger); animation: none; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
 
+        /* ===== Login ===== */
         #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); z-index: 2000; display: none; justify-content: center; align-items: center; }
-        .login-card { background: rgba(30,41,59,0.9); backdrop-filter: blur(10px); border: 1px solid var(--border); border-radius: 20px; padding: 30px; width: 380px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-        .login-card h2 { margin-bottom: 20px; color: var(--primary); }
+        .login-card { background: rgba(30,41,59,0.9); backdrop-filter: blur(10px); border: 1px solid var(--border); border-radius: 20px; padding: 30px; width: 480px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .login-card h2 { margin-bottom: 5px; color: var(--primary); }
+        .login-sub { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
+        .users-login-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; max-height: 350px; overflow-y: auto; }
+        .user-login-btn { background: var(--bg-card); border: 2px solid var(--border); padding: 14px 10px; border-radius: 14px; cursor: pointer; transition: all 0.3s; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .user-login-btn:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(99,102,241,0.2); }
+        .user-login-btn .uli-avatar { width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; color: white; }
+        .user-login-btn .uli-name { font-weight: 700; font-size: 0.95rem; }
+        .user-login-btn .uli-role { font-size: 0.75rem; padding: 2px 10px; border-radius: 20px; font-weight: 600; }
+        .role-admin { background: rgba(239,68,68,0.2); color: #fca5a5; }
+        .role-sales { background: rgba(99,102,241,0.2); color: #a5b4fc; }
+        .role-reports { background: rgba(6,182,212,0.2); color: #67e8f9; }
+        .role-cashier { background: rgba(245,158,11,0.2); color: #fcd34d; }
         .phone-display { background: #000; color: #10b981; font-family: monospace; font-size: 2.2rem; padding: 15px; border-radius: 10px; margin-bottom: 10px; letter-spacing: 8px; min-height: 60px; }
         .login-error { color: var(--danger); font-size: 0.85rem; min-height: 20px; margin-bottom: 10px; }
-        .numpad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-        .num-btn { background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border); font-size: 1.4rem; padding: 18px; border-radius: 12px; cursor: pointer; transition: 0.2s; font-family: 'Tajawal', sans-serif; }
+        .numpad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .num-btn { background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border); font-size: 1.4rem; padding: 16px; border-radius: 12px; cursor: pointer; transition: 0.2s; font-family: 'Tajawal', sans-serif; }
         .num-btn:hover { background: var(--primary); border-color: var(--primary); }
         .btn-call { background: var(--primary); border-color: var(--primary); color: white; }
         .btn-clear { background: rgba(239,68,68,0.2); color: var(--danger); border-color: var(--danger); }
@@ -48,117 +60,113 @@
         .sidebar { width: 280px; background: var(--bg-card); border-left: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; overflow-y: auto; }
         .brand { font-size: 1.4rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
 
-        .day-date-card { background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(6,182,212,0.1)); border: 1px solid rgba(99,102,241,0.3); border-radius: 14px; padding: 15px; margin-bottom: 25px; text-align: center; transition: all 0.3s; }
-        .day-date-card.ended { background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(185,28,28,0.1)); border-color: rgba(239,68,68,0.4); }
-        .day-date-card .label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 5px; letter-spacing: 1px; }
-        .day-date-card .date-value { font-size: 1rem; font-weight: 800; color: var(--accent); }
+        /* بطاقة المستخدم الحالي */
+        .current-user-card { background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(6,182,212,0.08)); border: 1px solid rgba(99,102,241,0.3); border-radius: 14px; padding: 14px; margin-bottom: 15px; }
+        .cuc-row { display: flex; justify-content: space-between; align-items: center; }
+        .cuc-name { font-weight: 800; font-size: 1.1rem; }
+        .cuc-role { font-size: 0.75rem; padding: 3px 10px; border-radius: 20px; font-weight: 700; }
+
+        .day-date-card { background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(6,182,212,0.08)); border: 1px solid rgba(99,102,241,0.25); border-radius: 14px; padding: 12px; margin-bottom: 20px; text-align: center; transition: all 0.3s; }
+        .day-date-card.ended { background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(185,28,28,0.08)); border-color: rgba(239,68,68,0.4); }
+        .day-date-card .label { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 3px; letter-spacing: 1px; }
+        .day-date-card .date-value { font-size: 0.95rem; font-weight: 800; color: var(--accent); }
         .day-date-card.ended .date-value { color: #fca5a5; }
-        .day-date-card .day-num { font-size: 2.8rem; font-weight: 800; color: var(--primary); line-height: 1; margin: 5px 0; }
+        .day-date-card .day-num { font-size: 2.6rem; font-weight: 800; color: var(--primary); line-height: 1; margin: 3px 0; }
         .day-date-card.ended .day-num { color: var(--danger); }
-        .day-date-card .day-name { font-size: 0.9rem; color: var(--text-muted); font-weight: 600; }
+        .day-date-card .day-name { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
 
-        /* سهم التقدم */
-        .day-arrow { display: flex; align-items: center; justify-content: center; margin: -10px 0 10px; }
-        .day-arrow span { font-size: 0.75rem; color: var(--text-muted); background: var(--bg-dark); padding: 2px 10px; border-radius: 8px; }
-
-        .nav-item { padding: 12px 15px; margin-bottom: 8px; border-radius: 10px; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; gap: 10px; transition: 0.2s; font-weight: 600; }
+        .nav-item { padding: 11px 14px; margin-bottom: 6px; border-radius: 10px; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; gap: 10px; transition: 0.2s; font-weight: 600; font-size: 0.95rem; }
         .nav-item:hover, .nav-item.active { background: var(--primary); color: white; }
+        .nav-item.nav-disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+        .nav-item-end-day { background: rgba(239,68,68,0.15) !important; color: var(--danger) !important; border: 1px solid rgba(239,68,68,0.3); }
+        .nav-item-end-day:hover { background: var(--danger) !important; color: white !important; }
+        .nav-item-start-day { background: rgba(16,185,129,0.15) !important; color: var(--success) !important; border: 1px solid rgba(16,185,129,0.3); }
+        .nav-item-start-day:hover { background: var(--success) !important; color: white !important; }
+
         .content-area { flex: 1; overflow-y: auto; padding: 30px; background: var(--bg-dark); position: relative; }
 
-        #day-ended-banner { display: none; position: sticky; top: 0; z-index: 100; background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 50%, #b91c1c 100%); color: white; padding: 20px 25px; border-radius: 14px; margin-bottom: 25px; box-shadow: 0 8px 25px rgba(185,28,28,0.4); border: 2px solid #fca5a5; animation: bannerPulse 3s ease-in-out infinite; }
+        #day-ended-banner { display: none; position: sticky; top: 0; z-index: 100; background: linear-gradient(135deg, #7f1d1d, #991b1b, #b91c1c); color: white; padding: 18px 25px; border-radius: 14px; margin-bottom: 25px; box-shadow: 0 8px 25px rgba(185,28,28,0.4); border: 2px solid #fca5a5; animation: bannerPulse 3s ease-in-out infinite; }
         @keyframes bannerPulse { 0%,100% { box-shadow: 0 8px 25px rgba(185,28,28,0.4); } 50% { box-shadow: 0 8px 35px rgba(185,28,28,0.7); } }
-        #day-ended-banner h3 { font-size: 1.3rem; margin-bottom: 8px; }
+        #day-ended-banner h3 { font-size: 1.2rem; margin-bottom: 6px; }
         #day-ended-banner p { font-size: 0.9rem; opacity: 0.9; }
-        #day-ended-banner .banner-date { color: #fca5a5; font-weight: bold; font-size: 1.1rem; }
+        #day-ended-banner .banner-date { color: #fca5a5; font-weight: bold; }
         #day-ended-banner .banner-next { color: #86efac; font-weight: bold; }
 
-        #day-active-badge { display: none; position: sticky; top: 0; z-index: 100; background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); color: var(--success); padding: 12px 20px; border-radius: 10px; margin-bottom: 20px; font-size: 0.95rem; font-weight: 700; }
+        #day-active-badge { display: none; position: sticky; top: 0; z-index: 100; background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); color: var(--success); padding: 10px 20px; border-radius: 10px; margin-bottom: 20px; font-size: 0.95rem; font-weight: 700; }
 
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 10px; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .stat-card { background: var(--bg-card); padding: 20px; border-radius: 15px; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 5px; }
-        .stat-value { font-size: 1.8rem; font-weight: bold; }
-        .stat-label { color: var(--text-muted); font-size: 0.9rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 18px; margin-bottom: 30px; }
+        .stat-card { background: var(--bg-card); padding: 18px; border-radius: 15px; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 4px; }
+        .stat-value { font-size: 1.7rem; font-weight: bold; }
+        .stat-label { color: var(--text-muted); font-size: 0.88rem; }
 
-        .add-panel { background: var(--bg-card); padding: 20px; border-radius: 15px; border: 1px solid var(--border); margin-bottom: 20px; display: flex; gap: 15px; flex-wrap: wrap; align-items: flex-end; }
-        .input-group { flex: 1; min-width: 150px; }
-        .input-group label { display: block; color: var(--text-muted); margin-bottom: 5px; font-size: 0.85rem; }
-        .input-field, .date-field { width: 100%; background: var(--bg-dark); border: 1px solid var(--border); color: white; padding: 10px; border-radius: 8px; font-family: 'Tajawal', sans-serif; font-size: 0.95rem; }
+        .add-panel { background: var(--bg-card); padding: 18px; border-radius: 15px; border: 1px solid var(--border); margin-bottom: 18px; display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end; }
+        .input-group { flex: 1; min-width: 140px; }
+        .input-group label { display: block; color: var(--text-muted); margin-bottom: 4px; font-size: 0.83rem; }
+        .input-field, .date-field { width: 100%; background: var(--bg-dark); border: 1px solid var(--border); color: white; padding: 9px; border-radius: 8px; font-family: 'Tajawal', sans-serif; font-size: 0.93rem; }
         select.input-field { cursor: pointer; }
-        .btn-add { background: var(--success); color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-family: 'Tajawal', sans-serif; transition: 0.2s; white-space: nowrap; }
+        .btn-add { background: var(--success); color: white; padding: 9px 18px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-family: 'Tajawal', sans-serif; transition: 0.2s; white-space: nowrap; }
         .btn-add:hover { opacity: 0.85; }
 
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .product-card { padding: 15px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-card); transition: 0.3s; }
-        .product-card:hover { transform: translateY(-5px); border-color: var(--primary); }
-        .p-name { font-weight: bold; margin-bottom: 5px; }
-        .p-cat { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 3px; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 18px; }
+        .product-card { padding: 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-card); transition: 0.3s; }
+        .product-card:hover { transform: translateY(-4px); border-color: var(--primary); }
+        .p-name { font-weight: bold; margin-bottom: 4px; }
+        .p-cat { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 3px; }
         .p-price { color: var(--accent); font-weight: bold; }
-        .p-actions { margin-top: 10px; display: flex; gap: 10px; }
-        .btn-sm { padding: 5px 10px; border-radius: 6px; border: none; color: white; cursor: pointer; font-family: 'Tajawal', sans-serif; font-size: 0.85rem; }
+        .p-actions { margin-top: 10px; display: flex; gap: 8px; }
+        .btn-sm { padding: 5px 10px; border-radius: 6px; border: none; color: white; cursor: pointer; font-family: 'Tajawal', sans-serif; font-size: 0.83rem; }
         .btn-edit { background: var(--primary); flex: 1; }
         .btn-del { background: var(--danger); }
 
-        .table-container { background: var(--bg-card); border-radius: 15px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 30px; }
-        .table-container h3 { padding: 15px 15px 0; color: var(--text-muted); font-size: 0.95rem; }
+        .table-container { background: var(--bg-card); border-radius: 15px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 28px; }
+        .table-container h3 { padding: 14px 14px 0; color: var(--text-muted); font-size: 0.93rem; }
         table { width: 100%; border-collapse: collapse; }
-        th { background: rgba(255,255,255,0.05); color: var(--text-muted); text-align: right; padding: 15px; font-size: 0.9rem; }
-        td { padding: 15px; border-bottom: 1px solid var(--border); color: var(--text-main); transition: 0.2s; }
+        th { background: rgba(255,255,255,0.05); color: var(--text-muted); text-align: right; padding: 13px; font-size: 0.88rem; }
+        td { padding: 13px; border-bottom: 1px solid var(--border); color: var(--text-main); }
         tr:hover td { background: rgba(255,255,255,0.02); }
         tr[data-clickable] td { cursor: pointer; }
-        .status-badge { padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
+        .status-badge { padding: 3px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: bold; }
         .status-completed { background: rgba(16,185,129,0.2); color: #10b981; }
         .status-cancelled { background: rgba(239,68,68,0.2); color: #ef4444; }
-        .no-data-row td { text-align: center; color: var(--text-muted); padding: 30px; }
+        .no-data-row td { text-align: center; color: var(--text-muted); padding: 28px; }
 
         .modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); align-items: center; justify-content: center; }
-        .modal-content { background: var(--bg-card); padding: 30px; border-radius: 20px; width: 500px; max-width: 90vw; position: relative; max-height: 90vh; overflow-y: auto; }
-        .close-modal { position: absolute; left: 20px; top: 20px; font-size: 28px; cursor: pointer; color: var(--text-muted); background: none; border: none; }
+        .modal-content { background: var(--bg-card); padding: 28px; border-radius: 20px; width: 500px; max-width: 90vw; position: relative; max-height: 90vh; overflow-y: auto; }
+        .close-modal { position: absolute; left: 18px; top: 18px; font-size: 26px; cursor: pointer; color: var(--text-muted); background: none; border: none; }
         .close-modal:hover { color: white; }
-        .order-detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
-        .edit-modal-fields { display: flex; flex-direction: column; gap: 15px; margin: 20px 0; }
+        .order-detail-row { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--border); }
+        .edit-modal-fields { display: flex; flex-direction: column; gap: 14px; margin: 18px 0; }
         .edit-modal-fields .input-group { min-width: 100%; }
 
-        .confirm-modal-content { background: var(--bg-card); padding: 30px; border-radius: 20px; width: 480px; max-width: 90vw; text-align: center; }
-        .confirm-msg { margin-bottom: 25px; font-size: 1rem; line-height: 2; color: var(--text-main); white-space: pre-line; }
+        .confirm-modal-content { background: var(--bg-card); padding: 28px; border-radius: 20px; width: 460px; max-width: 90vw; text-align: center; }
+        .confirm-msg { margin-bottom: 22px; font-size: 1rem; line-height: 2; color: var(--text-main); white-space: pre-line; }
         .confirm-msg .old-date { color: var(--danger); font-weight: 800; text-decoration: line-through; }
         .confirm-msg .new-date { color: var(--success); font-weight: 800; font-size: 1.2rem; }
         .confirm-msg .arrow { color: var(--accent); font-size: 1.3rem; margin: 0 8px; }
         .confirm-btns { display: flex; gap: 12px; }
-        .confirm-btns button { flex: 1; padding: 14px; border: none; border-radius: 10px; font-weight: bold; font-size: 1rem; cursor: pointer; font-family: 'Tajawal', sans-serif; transition: 0.2s; }
+        .confirm-btns button { flex: 1; padding: 13px; border: none; border-radius: 10px; font-weight: bold; font-size: 1rem; cursor: pointer; font-family: 'Tajawal', sans-serif; transition: 0.2s; }
         .confirm-yes { background: var(--success); color: white; }
         .confirm-yes:hover { opacity: 0.85; }
         .confirm-no { background: var(--border); color: var(--text-main); }
         .confirm-no:hover { background: #475569; }
 
-        .nav-item-end-day { background: rgba(239,68,68,0.15) !important; color: var(--danger) !important; border: 1px solid rgba(239,68,68,0.3); }
-        .nav-item-end-day:hover { background: var(--danger) !important; color: white !important; border-color: var(--danger); }
-        .nav-item-start-day { background: rgba(16,185,129,0.15) !important; color: var(--success) !important; border: 1px solid rgba(16,185,129,0.3); }
-        .nav-item-start-day:hover { background: var(--success) !important; color: white !important; border-color: var(--success); }
-
-        .disabled-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.85); z-index: 50; display: none; justify-content: center; align-items: center; border-radius: 15px; }
+        .disabled-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.88); z-index: 50; display: none; justify-content: center; align-items: center; border-radius: 15px; }
         .disabled-overlay.show { display: flex; }
-        .disabled-overlay-text { text-align: center; color: var(--danger); font-size: 1.3rem; font-weight: bold; }
+        .disabled-overlay-text { text-align: center; color: var(--danger); font-size: 1.2rem; font-weight: bold; }
+        .disabled-overlay-text small { display: block; color: var(--text-muted); font-size: 0.85rem; margin-top: 8px; font-weight: 400; }
 
         .hidden { display: none !important; }
         .flex { display: flex !important; }
-        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar { width: 7px; }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
     </style>
 </head>
 <body>
 
-    <div id="loading-overlay">
-        <div class="spinner"></div>
-        <div class="loading-text" id="loading-text">جاري الاتصال بقاعدة البيانات...</div>
-    </div>
-
+    <div id="loading-overlay"><div class="spinner"></div><div class="loading-text" id="loading-text">جاري الاتصال...</div></div>
     <div id="toast-container"></div>
-
-    <div id="conn-status" style="display:none;">
-        <div class="conn-dot" id="conn-dot"></div>
-        <span id="conn-text">متصل</span>
-    </div>
+    <div id="conn-status" style="display:none;"><div class="conn-dot" id="conn-dot"></div><span id="conn-text">متصل</span></div>
 
     <div id="confirm-modal" class="modal">
         <div class="confirm-modal-content">
@@ -170,14 +178,15 @@
         </div>
     </div>
 
+    <!-- ===== LOGIN ===== -->
     <div id="login-overlay">
         <div class="login-card">
-            <h2>🔐 دخول المدير</h2>
-            <div id="user-selection">
-                <div class="num-btn" style="width:100%; font-size:1.2rem; padding:20px; background:rgba(99,102,241,0.1); border-color:var(--primary); color:var(--primary);" onclick="selectUser({name:'Admin', pass:'9999', id:99, role:'admin'})">دخول المدير</div>
-            </div>
+            <h2>🔐 تسجيل الدخول</h2>
+            <div class="login-sub">اختر حسابك للمتابعة</div>
+            <div id="user-selection" class="users-login-grid"></div>
             <div id="keypad-area" class="hidden">
-                <button onclick="backToUsers()" style="background:none; border:1px solid var(--border); color:var(--text-muted); padding:5px 10px; border-radius:8px; cursor:pointer; margin-bottom:10px; font-family:'Tajawal',sans-serif;">🔙 عودة</button>
+                <button onclick="backToUsers()" style="background:none; border:1px solid var(--border); color:var(--text-muted); padding:5px 12px; border-radius:8px; cursor:pointer; margin-bottom:10px; font-family:'Tajawal',sans-serif;">🔙 عودة</button>
+                <div class="login-sub" style="margin-bottom:8px;">كلمة المرور لـ <b id="selected-user-name" style="color:var(--primary)"></b></div>
                 <div class="phone-display" id="pass-display"></div>
                 <div class="login-error" id="login-error"></div>
                 <div class="numpad-grid">
@@ -190,23 +199,17 @@
         </div>
     </div>
 
+    <!-- ===== MODALS ===== -->
     <div id="order-modal" class="modal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeOrderModal()">&times;</button>
-            <h2 style="margin-bottom:20px; color:var(--primary);">تفاصيل الطلب #<span id="modal-order-id"></span></h2>
-            <div class="order-detail-row"><span>التاريخ:</span> <span id="modal-date" style="color:var(--text-muted)"></span></div>
-            <div class="order-detail-row"><span>الكاشير:</span> <span id="modal-cashier"></span></div>
-            <div class="order-detail-row"><span>الحالة:</span> <span id="modal-status"></span></div>
-            <div style="margin:20px 0; border-top:1px solid var(--border); padding-top:10px;">
-                <h4 style="margin-bottom:10px;">المنتجات:</h4>
-                <div id="modal-items-list" style="max-height:250px; overflow-y:auto;"></div>
-            </div>
-            <div class="order-detail-row" style="border:none; font-size:1.4rem; font-weight:bold; color:var(--accent);">
-                <span>الإجمالي:</span> <span id="modal-total"></span>
-            </div>
-            <div style="margin-top:20px;" id="modal-cancel-area">
-                <button class="btn-del" style="width:100%; padding:15px; border-radius:10px; font-size:1rem; font-family:'Tajawal',sans-serif;" onclick="cancelOrderFromModal()">🗑️ إلغاء/إرجاع الطلب</button>
-            </div>
+            <h2 style="margin-bottom:18px; color:var(--primary);">تفاصيل الطلب #<span id="modal-order-id"></span></h2>
+            <div class="order-detail-row"><span>التاريخ:</span><span id="modal-date" style="color:var(--text-muted)"></span></div>
+            <div class="order-detail-row"><span>الكاشير:</span><span id="modal-cashier"></span></div>
+            <div class="order-detail-row"><span>الحالة:</span><span id="modal-status"></span></div>
+            <div style="margin:18px 0;border-top:1px solid var(--border);padding-top:10px;"><h4 style="margin-bottom:10px;">المنتجات:</h4><div id="modal-items-list" style="max-height:250px;overflow-y:auto;"></div></div>
+            <div class="order-detail-row" style="border:none;font-size:1.4rem;font-weight:bold;color:var(--accent);"><span>الإجمالي:</span><span id="modal-total"></span></div>
+            <div style="margin-top:18px;" id="modal-cancel-area"><button class="btn-del" style="width:100%;padding:14px;border-radius:10px;font-size:1rem;font-family:'Tajawal',sans-serif;" onclick="cancelOrderFromModal()">🗑️ إلغاء الطلب</button></div>
         </div>
     </div>
 
@@ -219,16 +222,19 @@
                 <div class="input-group"><label>السعر</label><input type="number" id="edit-price" class="input-field" step="0.01"></div>
                 <div class="input-group"><label>القسم</label><select id="edit-cat" class="input-field"></select></div>
             </div>
-            <div style="display:flex; gap:10px;">
-                <button class="btn-add" style="flex:1; font-size:1rem;" onclick="saveEditProduct()">حفظ التعديلات</button>
-                <button class="btn-del" style="padding:10px 20px; border-radius:8px; font-family:'Tajawal',sans-serif;" onclick="closeEditModal()">إلغاء</button>
-            </div>
+            <div style="display:flex;gap:10px;"><button class="btn-add" style="flex:1;font-size:1rem;" onclick="saveEditProduct()">حفظ</button><button class="btn-del" style="padding:9px 18px;border-radius:8px;font-family:'Tajawal',sans-serif;" onclick="closeEditModal()">إلغاء</button></div>
         </div>
     </div>
 
+    <!-- ===== APP ===== -->
     <div id="admin-app" class="hidden">
         <aside class="sidebar">
             <div class="brand">⚡ POS Master</div>
+
+            <!-- بطاقة المستخدم الحالي -->
+            <div class="current-user-card">
+                <div class="cuc-row"><span class="cuc-name" id="cuc-name">--</span><span class="cuc-role" id="cuc-role">--</span></div>
+            </div>
 
             <div class="day-date-card" id="sidebar-date-card">
                 <div class="label">📅 تاريخ يوم العمل</div>
@@ -237,115 +243,118 @@
                 <div class="date-value" id="sidebar-date-full">--</div>
             </div>
 
-            <div class="nav-item active" onclick="switchTab('dashboard', this)">📊 نظرة عامة</div>
-            <div class="nav-item" onclick="switchTab('products', this)">📦 المنتجات</div>
-            <div class="nav-item" onclick="switchTab('sales', this)">🛒 التقارير والمصروفات</div>
-            <div class="nav-item" onclick="switchTab('users', this)">👥 المستخدمين</div>
+            <div class="nav-item active" id="nav-dashboard" onclick="switchTab('dashboard', this)">📊 نظرة عامة</div>
+            <div class="nav-item" id="nav-products" onclick="switchTab('products', this)">📦 المنتجات</div>
+            <div class="nav-item" id="nav-sales" onclick="switchTab('sales', this)">🛒 التقارير والمصروفات</div>
+            <div class="nav-item" id="nav-users" onclick="switchTab('users', this)">👥 المستخدمين والصلاحيات</div>
 
-            <div id="end-day-btn-wrap" style="margin-top:20px;">
+            <div id="end-day-btn-wrap" style="margin-top:18px;">
                 <div class="nav-item nav-item-end-day" onclick="endDay()">🔒 إنهاء يوم العمل</div>
             </div>
-            <div id="start-day-btn-wrap" class="hidden" style="margin-top:20px;">
-                <div class="nav-item nav-item-start-day" onclick="startNewDay()">🔓 بدء يوم جديد (اليوم التالي)</div>
+            <div id="start-day-btn-wrap" class="hidden" style="margin-top:18px;">
+                <div class="nav-item nav-item-start-day" onclick="startNewDay()">🔓 بدء يوم جديد</div>
             </div>
 
-            <div style="margin-top:auto; padding-top:20px; border-top:1px solid var(--border);">
-                <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px; text-align:center;" id="day-status-sidebar">متصل بـ Firebase ☁️</div>
-                <div class="nav-item" style="background:rgba(239,68,68,0.1); color:var(--danger);" onclick="logout()">🚪 خروج</div>
+            <div style="margin-top:auto;padding-top:18px;border-top:1px solid var(--border);">
+                <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:10px;text-align:center;" id="day-status-sidebar">متصل ☁️</div>
+                <div class="nav-item" style="background:rgba(239,68,68,0.1);color:var(--danger);" onclick="logout()">🚪 تسجيل خروج</div>
             </div>
         </aside>
         <main class="content-area">
             <div id="day-ended-banner">
                 <h3>🔒 يوم العمل منتهي</h3>
                 <p>تم إنهاء يوم: <span class="banner-date" id="banner-end-date"></span></p>
-                <p style="margin-top:5px;">اليوم التالي: <span class="banner-next" id="banner-next-date"></span></p>
-                <p style="margin-top:8px; font-size:0.85rem; opacity:0.8;">اضغط "بدء يوم جديد" لفتح اليوم التالي</p>
+                <p>اليوم التالي: <span class="banner-next" id="banner-next-date"></span></p>
             </div>
             <div id="day-active-badge">✅ يوم العمل مفتوح - <span id="active-date-badge"></span></div>
 
             <div id="view-dashboard">
                 <div class="header"><h2>نظرة عامة</h2><span id="current-date" style="color:var(--text-muted)"></span></div>
                 <div class="stats-grid">
-                    <div class="stat-card" style="border-right: 3px solid var(--success);"><div class="stat-value" style="color:var(--success)" id="d-sales">0</div><div class="stat-label">مبيعات اليوم (ج.م)</div></div>
-                    <div class="stat-card" style="border-right: 3px solid var(--primary);"><div class="stat-value" style="color:var(--primary)" id="d-orders">0</div><div class="stat-label">طلبات اليوم</div></div>
-                    <div class="stat-card" style="border-right: 3px solid var(--accent);"><div class="stat-value" style="color:var(--accent)" id="d-products">0</div><div class="stat-label">عدد المنتجات</div></div>
-                    <div class="stat-card" style="border-right: 3px solid var(--warning);"><div class="stat-value" style="color:var(--warning)" id="d-expenses">0</div><div class="stat-label">مصروفات اليوم</div></div>
-                    <div class="stat-card" style="border-right: 3px solid var(--net-profit);"><div class="stat-value" style="color:var(--net-profit)" id="d-net">0</div><div class="stat-label">صافي الربح</div></div>
+                    <div class="stat-card" style="border-right:3px solid var(--success);"><div class="stat-value" style="color:var(--success)" id="d-sales">0</div><div class="stat-label">مبيعات اليوم</div></div>
+                    <div class="stat-card" style="border-right:3px solid var(--primary);"><div class="stat-value" style="color:var(--primary)" id="d-orders">0</div><div class="stat-label">طلبات اليوم</div></div>
+                    <div class="stat-card" style="border-right:3px solid var(--accent);"><div class="stat-value" style="color:var(--accent)" id="d-products">0</div><div class="stat-label">عدد المنتجات</div></div>
+                    <div class="stat-card" style="border-right:3px solid var(--warning);"><div class="stat-value" style="color:var(--warning)" id="d-expenses">0</div><div class="stat-label">مصروفات اليوم</div></div>
+                    <div class="stat-card" style="border-right:3px solid var(--net-profit);"><div class="stat-value" style="color:var(--net-profit)" id="d-net">0</div><div class="stat-label">صافي الربح</div></div>
                 </div>
-                <h3 style="margin-bottom:15px; color:var(--text-muted);">آخر 10 عمليات بيع</h3>
+                <h3 style="margin-bottom:14px;color:var(--text-muted);">آخر 10 عمليات بيع</h3>
                 <div class="table-container"><table><thead><tr><th>رقم</th><th>فاتورة</th><th>الكاشير</th><th>الوقت</th><th>الحالة</th><th>القيمة</th></tr></thead><tbody id="recent-sales-body"></tbody></table></div>
             </div>
+
             <div id="view-products" class="hidden" style="position:relative;">
-                <div class="disabled-overlay" id="products-overlay"><div class="disabled-overlay-text">🔒 لا يمكن التعديل - اليوم منتهي</div></div>
+                <div class="disabled-overlay" id="products-overlay"><div class="disabled-overlay-text">⛔ ليس لديك صلاحية لهذا القسم<small>تواصل مع المدير</small></div></div>
                 <div class="header"><h2>إدارة المنتجات</h2></div>
-                <div class="add-panel">
-                    <div class="input-group"><label>بحث</label><input type="text" id="search-prod" class="input-field" placeholder="بحث بالاسم..." oninput="filterProducts()"></div>
-                    <div class="input-group"><label>الاسم</label><input type="text" id="new-name" class="input-field" placeholder="اسم المنتج"></div>
-                    <div class="input-group"><label>السعر</label><input type="number" id="new-price" class="input-field" placeholder="0.00" step="0.01"></div>
-                    <div class="input-group"><label>القسم</label><select id="new-cat" class="input-field"></select></div>
-                    <button class="btn-add" onclick="addProduct()">➕ إضافة منتج</button>
-                </div>
-                <div class="add-panel" style="padding:15px;">
-                    <div class="input-group" style="min-width:200px;"><label>قسم جديد</label><input type="text" id="new-cat-name" class="input-field" placeholder="اسم القسم"></div>
-                    <button class="btn-add" style="background:var(--primary); align-self:flex-end;" onclick="addCategory()">+ إضافة قسم</button>
-                </div>
-                <div id="cat-tags-container" style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;"></div>
+                <div class="add-panel"><div class="input-group"><label>بحث</label><input type="text" id="search-prod" class="input-field" placeholder="بحث بالاسم..." oninput="filterProducts()"></div><div class="input-group"><label>الاسم</label><input type="text" id="new-name" class="input-field" placeholder="اسم المنتج"></div><div class="input-group"><label>السعر</label><input type="number" id="new-price" class="input-field" placeholder="0.00" step="0.01"></div><div class="input-group"><label>القسم</label><select id="new-cat" class="input-field"></select></div><button class="btn-add" onclick="addProduct()">➕ إضافة</button></div>
+                <div class="add-panel" style="padding:14px;"><div class="input-group" style="min-width:180px;"><label>قسم جديد</label><input type="text" id="new-cat-name" class="input-field" placeholder="اسم القسم"></div><button class="btn-add" style="background:var(--primary);align-self:flex-end;" onclick="addCategory()">+ إضافة قسم</button></div>
+                <div id="cat-tags-container" style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;"></div>
                 <div class="products-grid" id="admin-products-grid"></div>
             </div>
+
             <div id="view-sales" class="hidden">
                 <div class="header"><h2>التقارير والمصروفات</h2></div>
-                <div class="stat-card" style="margin-bottom:20px; flex-direction:row; align-items:center; gap:15px; flex-wrap:wrap;">
-                    <label style="font-weight:bold; color:var(--text-muted)">📅 من:</label>
-                    <input type="date" id="date-start" class="date-field" style="width:auto;" onchange="loadReportData()">
-                    <span style="font-weight:bold; color:var(--text-muted)">إلى:</span>
-                    <input type="date" id="date-end" class="date-field" style="width:auto;" onchange="loadReportData()">
-                    <button class="btn-sm" onclick="setRange('today')" style="background:var(--primary); color:white; padding:8px 12px; border-radius:8px;">اليوم</button>
-                    <button class="btn-sm" onclick="setRange('week')" style="background:var(--primary); color:white; padding:8px 12px; border-radius:8px;">الأسبوع</button>
-                    <button class="btn-sm" onclick="setRange('month')" style="background:var(--primary); color:white; padding:8px 12px; border-radius:8px;">الشهر</button>
-                    <button class="btn-sm" onclick="setRange('all')" style="background:var(--warning); color:#000; padding:8px 12px; border-radius:8px;">الكل</button>
-                    <span id="report-range-label" style="color:var(--accent); font-weight:bold; width:100%; text-align:left; margin-top:10px;"></span>
+                <div class="stat-card" style="margin-bottom:18px;flex-direction:row;align-items:center;gap:14px;flex-wrap:wrap;">
+                    <label style="font-weight:bold;color:var(--text-muted)">📅 من:</label><input type="date" id="date-start" class="date-field" style="width:auto;" onchange="loadReportData()">
+                    <span style="font-weight:bold;color:var(--text-muted)">إلى:</span><input type="date" id="date-end" class="date-field" style="width:auto;" onchange="loadReportData()">
+                    <button class="btn-sm" onclick="setRange('today')" style="background:var(--primary);color:white;padding:7px 12px;border-radius:8px;">اليوم</button>
+                    <button class="btn-sm" onclick="setRange('week')" style="background:var(--primary);color:white;padding:7px 12px;border-radius:8px;">الأسبوع</button>
+                    <button class="btn-sm" onclick="setRange('month')" style="background:var(--primary);color:white;padding:7px 12px;border-radius:8px;">الشهر</button>
+                    <button class="btn-sm" onclick="setRange('all')" style="background:var(--warning);color:#000;padding:7px 12px;border-radius:8px;">الكل</button>
+                    <span id="report-range-label" style="color:var(--accent);font-weight:bold;width:100%;text-align:left;margin-top:8px;"></span>
                 </div>
                 <div class="stats-grid">
                     <div class="stat-card" style="border-color:var(--success)"><div class="stat-value" style="color:var(--success)" id="rep-revenue">0</div><div class="stat-label">الإيرادات</div></div>
                     <div class="stat-card" style="border-color:var(--danger)"><div class="stat-value" style="color:var(--danger)" id="rep-expenses">0</div><div class="stat-label">المصروفات</div></div>
                     <div class="stat-card" style="border-color:var(--accent)"><div class="stat-value" style="color:var(--accent)" id="rep-net">0</div><div class="stat-label">صافي الربح</div></div>
-                    <div class="stat-card" style="border-color:var(--warning)"><div class="stat-value" style="color:var(--warning)" id="rep-sandwiches">0</div><div class="stat-label">مبيعات السندوتشات</div></div>
+                    <div class="stat-card" style="border-color:var(--warning)"><div class="stat-value" style="color:var(--warning)" id="rep-sandwiches">0</div><div class="stat-label">السندوتشات</div></div>
                 </div>
-                <div id="expenses-add-panel" class="add-panel" style="border-color:var(--danger)">
-                    <div class="input-group"><label>وصف المصروف</label><input type="text" id="exp-desc" class="input-field" placeholder="مثلاً: مشتريات جبنة"></div>
-                    <div class="input-group"><label>المبلغ</label><input type="number" id="exp-amount" class="input-field" placeholder="0.00" step="0.01"></div>
-                    <button class="btn-add" style="background:var(--danger)" onclick="addExpense()">➕ إضافة مصروف</button>
-                </div>
-                <h3 style="margin-bottom:15px; color:var(--text-muted)">📋 المبيعات</h3>
+                <div id="expenses-add-panel" class="add-panel" style="border-color:var(--danger)"><div class="input-group"><label>وصف المصروف</label><input type="text" id="exp-desc" class="input-field" placeholder="مثلاً: مشتريات"></div><div class="input-group"><label>المبلغ</label><input type="number" id="exp-amount" class="input-field" placeholder="0.00" step="0.01"></div><button class="btn-add" style="background:var(--danger)" onclick="addExpense()">➕ إضافة مصروف</button></div>
+                <h3 style="margin-bottom:14px;color:var(--text-muted)">📋 المبيعات</h3>
                 <div class="table-container"><table><thead><tr><th>رقم</th><th>فاتورة</th><th>الكاشير</th><th>التاريخ</th><th>التفاصيل</th><th>القيمة</th><th>الحالة</th></tr></thead><tbody id="day-sales-body"></tbody></table></div>
-                <h3 style="margin-bottom:15px; color:var(--text-muted)">💸 المصروفات</h3>
+                <h3 style="margin-bottom:14px;color:var(--text-muted)">💸 المصروفات</h3>
                 <div class="table-container"><table><thead><tr><th>الوصف</th><th>المبلغ</th><th>التاريخ</th><th>حذف</th></tr></thead><tbody id="day-expenses-body"></tbody></table></div>
-                <h3 style="margin-bottom:15px; color:var(--text-muted)">🚫 الطلبات الملغاة</h3>
+                <h3 style="margin-bottom:14px;color:var(--text-muted)">🚫 الملغاة</h3>
                 <div class="table-container"><table><thead><tr><th>رقم</th><th>فاتورة</th><th>التاريخ</th><th>الكاشير</th><th>القيمة</th></tr></thead><tbody id="cancelled-sales-body"></tbody></table></div>
             </div>
+
             <div id="view-users" class="hidden" style="position:relative;">
-                <div class="disabled-overlay" id="users-overlay"><div class="disabled-overlay-text">🔒 لا يمكن التعديل - اليوم منتهي</div></div>
-                <div class="header"><h2>إدارة المستخدمين</h2></div>
-                <div class="add-panel">
-                    <div class="input-group"><label>الاسم</label><input type="text" id="user-name" class="input-field" placeholder="اسم الكاشير"></div>
-                    <div class="input-group"><label>كلمة المرور</label><input type="text" id="user-pass" class="input-field" placeholder="1234"></div>
-                    <button class="btn-add" onclick="addUser()">➕ إضافة كاشير</button>
+                <div class="disabled-overlay" id="users-overlay"><div class="disabled-overlay-text">⛔ ليس لديك صلاحية لهذا القسم<small>تواصل مع المدير</small></div></div>
+                <div class="header"><h2>👥 المستخدمين والصلاحيات</h2></div>
+                <!-- جدول الصلاحيات -->
+                <div class="stat-card" style="margin-bottom:20px;padding:18px;border-color:var(--primary);">
+                    <div style="font-weight:800;font-size:1rem;margin-bottom:12px;color:var(--primary);">📋 جدول الصلاحيات</div>
+                    <table style="width:100%;font-size:0.85rem;">
+                        <thead><tr style="border-bottom:2px solid var(--border);"><th style="padding:8px;color:var(--text-muted);">الصلاحية</th><th style="padding:8px;color:var(--danger);">مدير كامل</th><th style="padding:8px;color:var(--accent);">مدير مبيعات</th><th style="padding:8px;color:var(--success);">مشاهد تقارير</th></tr></thead>
+                        <tbody>
+                            <tr><td style="padding:6px 8px;">نظرة عامة</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td></tr>
+                            <tr><td style="padding:6px 8px;">المنتجات</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">❌</td></tr>
+                            <tr><td style="padding:6px 8px;">التقارير</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td></tr>
+                            <tr><td style="padding:6px 8px;">المصروفات</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">❌</td></tr>
+                            <tr><td style="padding:6px 8px;">إلغاء طلبات</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">❌</td></tr>
+                            <tr><td style="padding:6px 8px;">المستخدمين</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">❌</td><td style="padding:6px 8px;text-align:center;">❌</td></tr>
+                            <tr><td style="padding:6px 8px;">إنهاء/بدء اليوم</td><td style="padding:6px 8px;text-align:center;">✅</td><td style="padding:6px 8px;text-align:center;">❌</td><td style="padding:6px 8px;text-align:center;">❌</td></tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="table-container"><table><thead><tr><th>الاسم</th><th>الدور</th><th>كلمة المرور</th><th>تعديل</th><th>حذف</th></tr></thead><tbody id="users-body"></tbody></table></div>
+                <!-- إضافة مستخدم -->
+                <div class="add-panel">
+                    <div class="input-group"><label>الاسم</label><input type="text" id="user-name" class="input-field" placeholder="اسم المستخدم"></div>
+                    <div class="input-group"><label>كلمة المرور</label><input type="text" id="user-pass" class="input-field" placeholder="أرقام أو حروف"></div>
+                    <div class="input-group"><label>الصلاحية</label>
+                        <select id="user-role" class="input-field">
+                            <option value="admin">🔴 مدير كامل</option>
+                            <option value="sales">🔵 مدير مبيعات</option>
+                            <option value="reports">🟢 مشاهد تقارير</option>
+                        </select>
+                    </div>
+                    <button class="btn-add" onclick="addUser()">➕ إضافة مستخدم</button>
+                </div>
+                <div class="table-container"><table><thead><tr><th>الاسم</th><th>الصلاحية</th><th>الباسورد</th><th>تعديل الباسورد</th><th>تعديل الصلاحية</th><th>حذف</th></tr></thead><tbody id="users-body"></tbody></table></div>
             </div>
         </main>
     </div>
 
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCoYT1ztpH200pb3BUOlYTbwguT49ShqRU",
-            authDomain: "cashier-aacf5.firebaseapp.com",
-            projectId: "cashier-aacf5",
-            storageBucket: "cashier-aacf5.firebasestorage.app",
-            messagingSenderId: "502467602972",
-            appId: "1:502467602972:web:fb68b7dfc1b9eee50d0dd9",
-            measurementId: "G-WV1ZM6WMH4"
-        };
+        const firebaseConfig = { apiKey: "AIzaSyCoYT1ztpH200pb3BUOlYTbwguT49ShqRU", authDomain: "cashier-aacf5.firebaseapp.com", projectId: "cashier-aacf5", storageBucket: "cashier-aacf5.firebasestorage.app", messagingSenderId: "502467602972", appId: "1:502467602972:web:fb68b7dfc1b9eee50d0dd9", measurementId: "G-WV1ZM6WMH4" };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         const DOC_REF = db.doc("pos/data");
@@ -355,24 +364,28 @@
         let currentModalOrderId = null, editingProductId = null, currentTab = 'dashboard';
 
         function getTodayISO() { return new Date().toISOString().split('T')[0]; }
-
-        /* إضافة يوم واحد لتاريخ */
-        function addOneDay(isoStr) {
-            var d = new Date(isoStr + 'T12:00:00');
-            d.setDate(d.getDate() + 1);
-            return d.toISOString().split('T')[0];
-        }
+        function addOneDay(isoStr) { var d = new Date(isoStr + 'T12:00:00'); d.setDate(d.getDate() + 1); return d.toISOString().split('T')[0]; }
 
         function formatBusinessDate(isoStr) {
-            if (!isoStr) return { num: '--', day: '--', full: '--' };
+            if (!isoStr) return { dayNum: '--', dayName: '--', full: '--' };
             var d = new Date(isoStr + 'T12:00:00');
-            var dayNames = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
-            var monthNames = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
-            return {
-                dayNum: d.getDate(),
-                dayName: dayNames[d.getDay()],
-                full: d.getDate() + ' ' + monthNames[d.getMonth()] + ' ' + d.getFullYear()
-            };
+            var dn = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+            var mn = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+            return { dayNum: d.getDate(), dayName: dn[d.getDay()], full: d.getDate() + ' ' + mn[d.getMonth()] + ' ' + d.getFullYear() };
+        }
+
+        /* ===== أسماء الصلاحيات بالعربي ===== */
+        const ROLE_NAMES = { admin: 'مدير كامل', sales: 'مدير مبيعات', reports: 'مشاهد تقارير', cashier: 'كاشير' };
+        const ROLE_CSS = { admin: 'role-admin', sales: 'role-sales', reports: 'role-reports', cashier: 'role-cashier' };
+
+        /* ===== الصلاحيات لكل دور ===== */
+        function getPermissions(role) {
+            switch(role) {
+                case 'admin': return { dashboard: true, products: true, sales: true, users: true, expenses: true, cancelOrders: true, endDay: true };
+                case 'sales': return { dashboard: true, products: true, sales: true, users: false, expenses: true, cancelOrders: true, endDay: false };
+                case 'reports': return { dashboard: true, products: false, sales: true, users: false, expenses: false, cancelOrders: false, endDay: false };
+                default: return { dashboard: false, products: false, sales: false, users: false, expenses: false, cancelOrders: false, endDay: false };
+            }
         }
 
         function createDefaultData() {
@@ -387,7 +400,7 @@
                     { id: 4, name: "شاحن موبايل", price: 150.00, cat: "إلكترونيات" },
                     { id: 5, name: "شيبسي", price: 8.00, cat: "مواد غذائية" },
                     { id: 6, name: "كولا", price: 12.00, cat: "مشروبات" },
-                    { id: 7, name: "قلم حبر أزرق", price: 3.00, cat: "مستلزمات" },
+                    { id: 7, name: "قلم حبر", price: 3.00, cat: "مستلزمات" },
                     { id: 8, name: "سماعات بلوتوث", price: 250.00, cat: "إلكترونيات" },
                     { id: 9, name: "سندوتش لحمة", price: 35.00, cat: "سندوتشات" },
                     { id: 10, name: "سندوتش جبنة", price: 30.00, cat: "سندوتشات" }
@@ -395,45 +408,74 @@
                 users: [
                     { id: 1, name: "كاشير 1", pass: "1234", role: "cashier" },
                     { id: 2, name: "كاشير 2", pass: "0000", role: "cashier" },
-                    { id: 99, name: "Admin", pass: "9999", role: "admin" }
+                    { id: 99, name: "المدير العام", pass: "9999", role: "admin" }
                 ],
                 sales: [], expenses: [], invoiceCounter: 0,
                 dayEnded: false, dayEndedDate: null
             };
         }
 
+        /* ===== Toast ===== */
         function showToast(msg, type = 'info') {
-            var c = document.getElementById('toast-container');
-            var t = document.createElement('div');
-            t.className = 'toast toast-' + type;
-            t.textContent = msg;
-            c.appendChild(t);
+            var c = document.getElementById('toast-container'); var t = document.createElement('div');
+            t.className = 'toast toast-' + type; t.textContent = msg; c.appendChild(t);
             requestAnimationFrame(() => t.classList.add('show'));
             setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 3000);
         }
 
+        /* ===== Confirm ===== */
         let confirmResolve = null;
         function showConfirm(msg) {
-            return new Promise(resolve => {
-                confirmResolve = resolve;
-                document.getElementById('confirm-msg').innerHTML = msg;
-                document.getElementById('confirm-modal').style.display = 'flex';
-            });
+            return new Promise(resolve => { confirmResolve = resolve; document.getElementById('confirm-msg').innerHTML = msg; document.getElementById('confirm-modal').style.display = 'flex'; });
         }
         document.getElementById('confirm-yes-btn').onclick = () => { document.getElementById('confirm-modal').style.display = 'none'; if (confirmResolve) confirmResolve(true); confirmResolve = null; };
         document.getElementById('confirm-no-btn').onclick = () => { document.getElementById('confirm-modal').style.display = 'none'; if (confirmResolve) confirmResolve(false); confirmResolve = null; };
 
-        function updateConnUI(online) {
-            document.getElementById('conn-dot').className = 'conn-dot' + (online ? '' : ' offline');
-            document.getElementById('conn-text').textContent = online ? 'متصل' : 'غير متصل';
-            document.getElementById('conn-status').style.display = 'flex';
-        }
+        function updateConnUI(online) { document.getElementById('conn-dot').className = 'conn-dot' + (online ? '' : ' offline'); document.getElementById('conn-text').textContent = online ? 'متصل' : 'غير متصل'; document.getElementById('conn-status').style.display = 'flex'; }
         window.addEventListener('online', () => updateConnUI(true));
         window.addEventListener('offline', () => updateConnUI(false));
 
-        async function saveField(fields) {
-            try { await DOC_REF.set(fields, { merge: true }); updateConnUI(true); }
-            catch (e) { console.error(e); updateConnUI(false); showToast("خطأ في الحفظ", "error"); }
+        async function saveField(fields) { try { await DOC_REF.set(fields, { merge: true }); updateConnUI(true); } catch (e) { console.error(e); updateConnUI(false); showToast("خطأ في الحفظ", "error"); } }
+
+        /* ===== تحديث واجهة الصلاحيات ===== */
+        function applyPermissions() {
+            if (!currentUser) return;
+            var perm = getPermissions(currentUser.role);
+
+            // السايدبار - تعطيل التبويبات
+            document.getElementById('nav-dashboard').classList.toggle('nav-disabled', !perm.dashboard);
+            document.getElementById('nav-products').classList.toggle('nav-disabled', !perm.products);
+            document.getElementById('nav-sales').classList.toggle('nav-disabled', !perm.sales);
+            document.getElementById('nav-users').classList.toggle('nav-disabled', !perm.users);
+
+            // إنهاء/بدء اليوم
+            document.getElementById('end-day-btn-wrap').classList.toggle('hidden', !perm.endDay || appData.dayEnded);
+            document.getElementById('start-day-btn-wrap').classList.toggle('hidden', !perm.endDay || !appData.dayEnded);
+
+            // أوفرلاي الصفحات (لما المستخدم يدخل صفحة مش عنده صلاحية)
+            var isEnded = appData.dayEnded === true;
+
+            // المنتجات: أوفرلاي إذا لا صلاحية أو اليوم منتهي
+            var prodBlock = !perm.products || isEnded;
+            document.getElementById('products-overlay').classList.toggle('show', prodBlock);
+            if (prodBlock) {
+                var msg = !perm.products ? '⛔ ليس لديك صلاحية<small>تواصل مع المدير</small>' : '🔒 اليوم منتهي';
+                document.getElementById('products-overlay').innerHTML = '<div class="disabled-overlay-text">' + msg + '</div>';
+            }
+
+            // المستخدمين: أوفرلاي إذا لا صلاحية
+            var userBlock = !perm.users;
+            document.getElementById('users-overlay').classList.toggle('show', userBlock);
+
+            // المصروفات: إخفاء إذا لا صلاحية أو اليوم منتهي
+            var expBlock = !perm.expenses || isEnded;
+            document.getElementById('expenses-add-panel').style.display = expBlock ? 'none' : 'flex';
+
+            // بطاقة المستخدم
+            document.getElementById('cuc-name').innerText = currentUser.name;
+            var roleEl = document.getElementById('cuc-role');
+            roleEl.innerText = ROLE_NAMES[currentUser.role] || currentUser.role;
+            roleEl.className = 'cuc-role ' + (ROLE_CSS[currentUser.role] || '');
         }
 
         function updateSidebarDate() {
@@ -442,98 +484,65 @@
             document.getElementById('sidebar-day-num').innerText = info.dayNum;
             document.getElementById('sidebar-day-name').innerText = info.dayName;
             document.getElementById('sidebar-date-full').innerText = info.full;
-            var card = document.getElementById('sidebar-date-card');
-            card.className = appData.dayEnded ? 'day-date-card ended' : 'day-date-card';
+            document.getElementById('sidebar-date-card').className = appData.dayEnded ? 'day-date-card ended' : 'day-date-card';
         }
 
         function updateDayStatusUI() {
             if (!appData) return;
             var isEnded = appData.dayEnded === true;
-
-            document.getElementById('end-day-btn-wrap').classList.toggle('hidden', isEnded);
-            document.getElementById('start-day-btn-wrap').classList.toggle('hidden', !isEnded);
-
-            document.getElementById('day-status-sidebar').innerHTML = isEnded
-                ? '🔒 يوم منتهي'
-                : '✅ يوم مفتوح ☁️';
-
+            var perm = getPermissions(currentUser.role);
+            document.getElementById('end-day-btn-wrap').classList.toggle('hidden', isEnded || !perm.endDay);
+            document.getElementById('start-day-btn-wrap').classList.toggle('hidden', !isEnded || !perm.endDay);
+            document.getElementById('day-status-sidebar').innerHTML = isEnded ? '🔒 يوم منتهي' : '✅ يوم مفتوح ☁️';
             var banner = document.getElementById('day-ended-banner');
             var badge = document.getElementById('day-active-badge');
-
             if (isEnded) {
-                banner.style.display = 'block';
-                badge.style.display = 'none';
-                var endedInfo = formatBusinessDate(appData.dayEndedDate);
-                var nextDate = addOneDay(appData.dayEndedDate);
-                var nextInfo = formatBusinessDate(nextDate);
-                document.getElementById('banner-end-date').innerText = endedInfo.full + ' (' + endedInfo.dayName + ')';
-                document.getElementById('banner-next-date').innerText = nextInfo.full + ' (' + nextInfo.dayName + ')';
+                banner.style.display = 'block'; badge.style.display = 'none';
+                var ei = formatBusinessDate(appData.dayEndedDate);
+                var ni = formatBusinessDate(addOneDay(appData.dayEndedDate));
+                document.getElementById('banner-end-date').innerText = ei.full + ' (' + ei.dayName + ')';
+                document.getElementById('banner-next-date').innerText = ni.full + ' (' + ni.dayName + ')';
             } else {
-                banner.style.display = 'none';
-                badge.style.display = 'block';
-                var activeInfo = formatBusinessDate(appData.businessDate);
-                document.getElementById('active-date-badge').innerText = activeInfo.full + ' - ' + activeInfo.dayName;
+                banner.style.display = 'none'; badge.style.display = 'block';
+                var ai = formatBusinessDate(appData.businessDate);
+                document.getElementById('active-date-badge').innerText = ai.full + ' - ' + ai.dayName;
             }
-
-            document.getElementById('products-overlay').classList.toggle('show', isEnded);
-            document.getElementById('users-overlay').classList.toggle('show', isEnded);
-            document.getElementById('expenses-add-panel').style.display = isEnded ? 'none' : 'flex';
-
             updateSidebarDate();
+            applyPermissions();
         }
 
-        /* === إنهاء اليوم === */
+        /* ===== إنهاء / بدء يوم ===== */
         async function endDay() {
-            var currentBizDate = appData.businessDate || getTodayISO();
-            var info = formatBusinessDate(currentBizDate);
-            var nextDate = addOneDay(currentBizDate);
-            var nextInfo = formatBusinessDate(nextDate);
-
-            var msg = '⚠️ إنهاء يوم العمل؟\n\n';
-            msg += 'تاريخ اليوم: ' + info.full + ' (' + info.dayName + ')\n\n';
-            msg += 'بعد الإنتهاء سيكون اليوم التالي:\n';
-            msg += nextInfo.full + ' (' + nextInfo.dayName + ')\n\n';
-            msg += 'سيتم قفل الكاشير تماماً';
-
-            if (await showConfirm(msg)) {
-                appData.dayEnded = true;
-                appData.dayEndedDate = currentBizDate;
-                await saveField({ dayEnded: true, dayEndedDate: currentBizDate });
+            var perm = getPermissions(currentUser.role);
+            if (!perm.endDay) return showToast("ليس لديك صلاحية", "error");
+            var d = appData.businessDate || getTodayISO();
+            var info = formatBusinessDate(d);
+            var nd = addOneDay(d); var ninfo = formatBusinessDate(nd);
+            if (await showConfirm('⚠️ إنهاء يوم العمل؟\n\nاليوم: ' + info.full + ' (' + info.dayName + ')\nاليوم التالي: ' + ninfo.full + ' (' + ninfo.dayName + ')\n\nسيتم قفل الكاشير')) {
+                appData.dayEnded = true; appData.dayEndedDate = d;
+                await saveField({ dayEnded: true, dayEndedDate: d });
                 showToast('🔒 تم إنهاء: ' + info.full, 'info');
             }
         }
-
-        /* === بدء يوم جديد = اليوم التالي (+1 يوم) === */
         async function startNewDay() {
-            var oldDate = appData.dayEndedDate || appData.businessDate || getTodayISO();
-            var newDate = addOneDay(oldDate); // <-- هنا السر: نضيف يوم واحد
-            var oldInfo = formatBusinessDate(oldDate);
-            var newInfo = formatBusinessDate(newDate);
-
-            var msg = '';
-            msg += '<div style="margin-bottom:15px;">اليوم المنتهي:</div>';
-            msg += '<div class="old-date" style="font-size:1.3rem; margin-bottom:15px;">' + oldInfo.full + ' (' + oldInfo.dayName + ')</div>';
-            msg += '<div class="arrow">⬇</div>';
-            msg += '<div style="margin:15px 0;">اليوم الجديد:</div>';
-            msg += '<div class="new-date">' + newInfo.full + ' (' + newInfo.dayName + ')</div>';
-
-            if (await showConfirm(msg)) {
-                appData.dayEnded = false;
-                appData.dayEndedDate = null;
-                appData.businessDate = newDate;
-                await saveField({ dayEnded: false, dayEndedDate: null, businessDate: newDate });
-                showToast('✅ بدأ يوم جديد: ' + newInfo.full + ' (' + newInfo.dayName + ')', 'success');
+            var perm = getPermissions(currentUser.role);
+            if (!perm.endDay) return showToast("ليس لديك صلاحية", "error");
+            var old = appData.dayEndedDate || appData.businessDate || getTodayISO();
+            var nw = addOneDay(old); var oi = formatBusinessDate(old); var ni = formatBusinessDate(nw);
+            if (await showConfirm('<div style="margin-bottom:12px;">اليوم المنتهي:</div><div class="old-date" style="font-size:1.2rem;margin-bottom:12px;">' + oi.full + '</div><div class="arrow">⬇</div><div style="margin:12px 0;">اليوم الجديد:</div><div class="new-date">' + ni.full + '</div>')) {
+                appData.dayEnded = false; appData.dayEndedDate = null; appData.businessDate = nw;
+                await saveField({ dayEnded: false, dayEndedDate: null, businessDate: nw });
+                showToast('✅ بدأ يوم جديد: ' + ni.full, 'success');
             }
         }
 
+        /* ===== Firebase ===== */
         function startFirebaseListener() {
             DOC_REF.onSnapshot((snap) => {
                 if (snap.exists) {
                     appData = snap.data();
-                    if (!appData.sales) appData.sales = [];
-                    if (!appData.expenses) appData.expenses = [];
-                    if (!appData.users) appData.users = [];
-                    if (!appData.products) appData.products = [];
+                    if (!appData.sales) appData.sales = []; if (!appData.expenses) appData.expenses = [];
+                    if (!appData.users) appData.users = []; if (!appData.products) appData.products = [];
                     if (!appData.categories) appData.categories = [];
                     if (appData.dayEnded === undefined) appData.dayEnded = false;
                     if (!appData.businessDate) appData.businessDate = getTodayISO();
@@ -544,48 +553,97 @@
                 document.getElementById('loading-overlay').style.display = 'none';
                 updateConnUI(navigator.onLine);
                 checkSessionAndRender();
-            }, (error) => {
-                document.getElementById('loading-text').innerHTML = '<span style="color:red">فشل: ' + error.message + '</span>';
-            });
+            }, (error) => { document.getElementById('loading-text').innerHTML = '<span style="color:red">فشل: ' + error.message + '</span>'; });
         }
 
+        /* ===== Session ===== */
         function checkSessionAndRender() {
             var s = localStorage.getItem('pos_session');
             if (s) {
                 try {
                     var u = JSON.parse(s);
-                    if ((appData.users || []).find(x => x.id === u.id)) { currentUser = u; isLoggedIn = true; showApp(); return; }
+                    // التحقق: المستخدم لسه موجود؟
+                    var found = (appData.users || []).find(x => x.id === u.id);
+                    if (found) {
+                        currentUser = { id: found.id, name: found.name, role: found.role };
+                        isLoggedIn = true;
+                        showApp();
+                        return;
+                    }
                 } catch (e) { localStorage.removeItem('pos_session'); }
             }
             if (!isLoggedIn) document.getElementById('login-overlay').style.display = 'flex';
+            initLoginUI();
         }
 
         function showApp() {
             document.getElementById('login-overlay').style.display = 'none';
             document.getElementById('admin-app').classList.remove('hidden');
             document.getElementById('admin-app').classList.add('flex');
-            renderCurrentTab();
+            // لو أول تاب مش متاح، نروح لأول تاب متاح
+            var perm = getPermissions(currentUser.role);
+            if (!perm[currentTab]) {
+                if (perm.dashboard) switchTab('dashboard', document.getElementById('nav-dashboard'));
+                else if (perm.products) switchTab('products', document.getElementById('nav-products'));
+                else if (perm.sales) switchTab('sales', document.getElementById('nav-sales'));
+                else switchTab('users', document.getElementById('nav-users'));
+            } else {
+                renderCurrentTab();
+            }
         }
 
         function logout() { localStorage.removeItem('pos_session'); location.reload(); }
 
-        function selectUser(u) { tempSelectedUser = u; document.getElementById('user-selection').classList.add('hidden'); document.getElementById('keypad-area').classList.remove('hidden'); enteredPass = ""; updatePassDisplay(); document.getElementById('login-error').innerText = ''; }
-        function backToUsers() { tempSelectedUser = null; enteredPass = ""; updatePassDisplay(); document.getElementById('login-error').innerText = ''; document.getElementById('keypad-area').classList.add('hidden'); document.getElementById('user-selection').classList.remove('hidden'); }
+        /* ===== Login ===== */
+        function initLoginUI() {
+            if (!appData) return;
+            var grid = document.getElementById('user-selection');
+            grid.innerHTML = '';
+            // نعرض كل المستخدمين اللي مش كاشيرين (اللي لهم صلاحية دخول الإدمن)
+            var admins = appData.users.filter(u => u.role !== 'cashier');
+            if (admins.length === 0) {
+                grid.innerHTML = '<div style="grid-column:span 2;color:var(--danger);line-height:2;">لا يوجد مستخدمين للإدمن<br><small>أضف من Firebase مباشرة مؤقتاً</small></div>';
+                return;
+            }
+            admins.forEach(u => {
+                var btn = document.createElement('div');
+                btn.className = 'user-login-btn';
+                var avatarColor = u.role === 'admin' ? 'var(--danger)' : u.role === 'sales' ? 'var(--primary)' : 'var(--success)';
+                var icon = u.role === 'admin' ? '👑' : u.role === 'sales' ? '📊' : '📈';
+                btn.innerHTML = '<div class="uli-avatar" style="background:' + avatarColor + ';">' + icon + '</div><div class="uli-name">' + u.name + '</div><span class="uli-role ' + (ROLE_CSS[u.role] || '') + '">' + (ROLE_NAMES[u.role] || u.role) + '</span>';
+                btn.onclick = function() { selectUser(u); };
+                grid.appendChild(btn);
+            });
+        }
+
+        function selectUser(u) {
+            tempSelectedUser = u;
+            document.getElementById('user-selection').style.display = 'none';
+            document.getElementById('selected-user-name').innerText = u.name;
+            document.getElementById('keypad-area').classList.remove('hidden');
+            enteredPass = ""; updatePassDisplay(); document.getElementById('login-error').innerText = '';
+        }
+        function backToUsers() { tempSelectedUser = null; enteredPass = ""; updatePassDisplay(); document.getElementById('login-error').innerText = ''; document.getElementById('keypad-area').classList.add('hidden'); document.getElementById('user-selection').style.display = 'grid'; }
         function addPass(n) { enteredPass += n; updatePassDisplay(); }
         function clearPass() { enteredPass = ""; updatePassDisplay(); document.getElementById('login-error').innerText = ''; }
         function updatePassDisplay() { document.getElementById('pass-display').innerText = "●".repeat(enteredPass.length); }
         function attemptLogin() {
             if (!tempSelectedUser) return;
             if (tempSelectedUser.pass === enteredPass) {
-                isLoggedIn = true; currentUser = tempSelectedUser;
-                localStorage.setItem('pos_session', JSON.stringify({ id: currentUser.id, name: currentUser.name, role: currentUser.role }));
+                isLoggedIn = true;
+                currentUser = { id: tempSelectedUser.id, name: tempSelectedUser.name, role: tempSelectedUser.role };
+                localStorage.setItem('pos_session', JSON.stringify({ id: currentUser.id }));
+                // نحفظ الـ id بس، ونقرأ البيانات من Firebase كل مرة (أمان أكبر)
                 showApp();
             } else { document.getElementById('login-error').innerText = "كلمة المرور غير صحيحة!"; enteredPass = ""; updatePassDisplay(); }
         }
 
+        /* ===== التنقل ===== */
         function switchTab(v, btn) {
+            var perm = getPermissions(currentUser.role);
+            if (!perm[v]) return showToast('ليس لديك صلاحية لهذا القسم', 'error');
             currentTab = v;
-            ['dashboard', 'products', 'sales', 'users'].forEach(x => document.getElementById('view-' + x).classList.add('hidden'));
+            ['dashboard','products','sales','users'].forEach(x => document.getElementById('view-' + x).classList.add('hidden'));
             document.getElementById('view-' + v).classList.remove('hidden');
             document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
@@ -600,95 +658,133 @@
             else if (currentTab === 'users') renderUsersTable();
         }
 
+        /* ===== Dashboard ===== */
         function loadDashboardStats() {
-            if (!appData) return;
             var bizDate = appData.businessDate || getTodayISO();
-            var todaySales = (appData.sales || []).filter(s => s.status !== 'cancelled' && s.dateISO === bizDate);
-            var todayTotal = todaySales.reduce((a, b) => a + b.total, 0);
-            var todayExp = (appData.expenses || []).filter(e => e.date === bizDate);
-            var todayExpTotal = todayExp.reduce((a, e) => a + e.amount, 0);
-            var todayNetProfit = todayTotal - todayExpTotal;
-
-            document.getElementById('d-sales').innerText = todayTotal.toLocaleString();
-            document.getElementById('d-orders').innerText = todaySales.length;
+            var ts = (appData.sales||[]).filter(s => s.status!=='cancelled' && s.dateISO===bizDate);
+            var tt = ts.reduce((a,b) => a+b.total, 0);
+            var te = (appData.expenses||[]).filter(e => e.date===bizDate);
+            var tet = te.reduce((a,e) => a+e.amount, 0);
+            var net = tt - tet;
+            document.getElementById('d-sales').innerText = tt.toLocaleString();
+            document.getElementById('d-orders').innerText = ts.length;
             document.getElementById('d-products').innerText = appData.products.length;
-            document.getElementById('d-expenses').innerText = todayExpTotal.toLocaleString();
-            var netEl = document.getElementById('d-net');
-            netEl.innerText = todayNetProfit.toLocaleString();
-            netEl.style.color = todayNetProfit >= 0 ? 'var(--success)' : 'var(--danger)';
-            document.querySelector('#d-net').parentElement.style.borderColor = todayNetProfit >= 0 ? 'var(--success)' : 'var(--danger)';
-
-            var recent = (appData.sales || []).slice(-10).reverse();
-            document.getElementById('recent-sales-body').innerHTML = recent.length === 0
-                ? '<tr class="no-data-row"><td colspan="6">لا توجد عمليات بعد</td></tr>'
-                : recent.map(s => { var inv = s.invoiceNum ? '#' + String(s.invoiceNum).padStart(5, '0') : '-'; var timeStr = s.date.split(',')[1] || s.date; return '<tr data-clickable onclick="viewOrderDetails(' + s.id + ')"><td>' + s.id + '</td><td>' + inv + '</td><td>' + s.cashier + '</td><td>' + timeStr + '</td><td><span class="status-badge status-' + (s.status || 'completed') + '">' + (s.status === 'cancelled' ? 'ملغي' : 'مكتمل') + '</span></td><td>' + s.total.toFixed(2) + ' ج.م</td></tr>'; }).join('');
-
+            document.getElementById('d-expenses').innerText = tet.toLocaleString();
+            var ne = document.getElementById('d-net'); ne.innerText = net.toLocaleString();
+            ne.style.color = net >= 0 ? 'var(--success)' : 'var(--danger)';
+            var recent = (appData.sales||[]).slice(-10).reverse();
+            document.getElementById('recent-sales-body').innerHTML = recent.length === 0 ? '<tr class="no-data-row"><td colspan="6">لا توجد عمليات</td></tr>' : recent.map(s => { var inv = s.invoiceNum ? '#'+String(s.invoiceNum).padStart(5,'0') : '-'; var t = s.date.split(',')[1]||s.date; return '<tr data-clickable onclick="viewOrderDetails('+s.id+')"><td>'+s.id+'</td><td>'+inv+'</td><td>'+s.cashier+'</td><td>'+t+'</td><td><span class="status-badge status-'+(s.status||'completed')+'">'+(s.status==='cancelled'?'ملغي':'مكتمل')+'</span></td><td>'+s.total.toFixed(2)+' ج.م</td></tr>'; }).join('');
             var info = formatBusinessDate(bizDate);
             document.getElementById('current-date').innerText = info.full + ' - ' + info.dayName;
         }
 
-        function setRange(type) {
-            var today = new Date(); var y = today.getFullYear(), m = String(today.getMonth() + 1).padStart(2, '0'), d = String(today.getDate()).padStart(2, '0');
-            var start, end;
-            if (type === 'today') { start = end = y + '-' + m + '-' + d; }
-            else if (type === 'week') { var dw = today.getDay() || 7; var ws = new Date(today); ws.setDate(today.getDate() - dw + 1); start = ws.toISOString().split('T')[0]; end = y + '-' + m + '-' + d; }
-            else if (type === 'month') { start = y + '-' + m + '-01'; end = y + '-' + m + '-' + new Date(y, parseInt(m), 0).getDate(); }
-            else { start = '2000-01-01'; end = '2099-12-31'; }
-            document.getElementById('date-start').value = start;
-            document.getElementById('date-end').value = end;
-            loadReportData();
-        }
-
+        /* ===== التقارير ===== */
+        function setRange(type) { var t=new Date(); var y=t.getFullYear(),m=String(t.getMonth()+1).padStart(2,'0'),d=String(t.getDate()).padStart(2,'0'); var s,e; if(type==='today'){s=e=y+'-'+m+'-'+d;}else if(type==='week'){var dw=t.getDay()||7;var ws=new Date(t);ws.setDate(t.getDate()-dw+1);s=ws.toISOString().split('T')[0];e=y+'-'+m+'-'+d;}else if(type==='month'){s=y+'-'+m+'-01';e=y+'-'+m+'-'+new Date(y,parseInt(m),0).getDate();}else{s='2000-01-01';e='2099-12-31';} document.getElementById('date-start').value=s; document.getElementById('date-end').value=e; loadReportData(); }
         function loadReportData() {
-            if (!appData) return;
-            var startStr = document.getElementById('date-start').value;
-            var endStr = document.getElementById('date-end').value;
-            document.getElementById('report-range-label').innerText = 'من ' + startStr + ' إلى ' + endStr;
-            var rangeRevenue = 0, sandwichSales = 0;
-            var rangeSales = (appData.sales || []).filter(s => s.dateISO && s.dateISO >= startStr && s.dateISO <= endStr);
-            document.getElementById('day-sales-body').innerHTML = rangeSales.length === 0 ? '<tr class="no-data-row"><td colspan="7">لا توجد مبيعات</td></tr>' : rangeSales.map(s => { var inv = s.invoiceNum ? '#' + String(s.invoiceNum).padStart(5, '0') : '-'; return '<tr data-clickable onclick="viewOrderDetails(' + s.id + ')"><td>' + s.id + '</td><td>' + inv + '</td><td>' + s.cashier + '</td><td>' + s.dateISO + '</td><td>' + s.items.length + ' منتجات</td><td>' + s.total.toFixed(2) + ' ج.م</td><td><span class="status-badge status-' + (s.status || 'completed') + '">' + (s.status === 'cancelled' ? 'ملغي' : 'مكتمل') + '</span></td></tr>'; }).join('');
-            rangeSales.forEach(s => { if (s.status !== 'cancelled') { rangeRevenue += s.total; (s.items || []).forEach(function(item) { if (item.cat === 'سندوتشات' || (item.name && item.name.includes('سندوتش'))) sandwichSales += item.price * item.qty; }); } });
-            var rangeExp = (appData.expenses || []).filter(e => e.date >= startStr && e.date <= endStr);
-            var rangeExpenses = rangeExp.reduce((a, e) => a + e.amount, 0);
-            document.getElementById('day-expenses-body').innerHTML = rangeExp.length === 0 ? '<tr class="no-data-row"><td colspan="4">لا توجد مصروفات</td></tr>' : rangeExp.map(e => '<tr><td>' + e.desc + '</td><td>' + e.amount.toFixed(2) + ' ج.م</td><td>' + e.date + '</td><td><button class="btn-sm btn-del" onclick="delExpense(' + e.id + ')">حذف</button></td></tr>').join('');
-            document.getElementById('rep-revenue').innerText = rangeRevenue.toFixed(2);
-            document.getElementById('rep-expenses').innerText = rangeExpenses.toFixed(2);
-            var net = rangeRevenue - rangeExpenses; var netEl = document.getElementById('rep-net'); netEl.innerText = net.toFixed(2); netEl.style.color = net >= 0 ? 'var(--success)' : 'var(--danger)';
-            document.getElementById('rep-sandwiches').innerText = sandwichSales.toFixed(2);
-            var cancelled = (appData.sales || []).filter(s => s.status === 'cancelled');
-            document.getElementById('cancelled-sales-body').innerHTML = cancelled.length === 0 ? '<tr class="no-data-row"><td colspan="5">لا توجد</td></tr>' : cancelled.map(s => { var inv = s.invoiceNum ? '#' + String(s.invoiceNum).padStart(5, '0') : '-'; return '<tr><td>' + s.id + '</td><td>' + inv + '</td><td>' + s.date + '</td><td>' + s.cashier + '</td><td>' + s.total.toFixed(2) + ' ج.م</td></tr>'; }).join('');
+            var ss=document.getElementById('date-start').value, es=document.getElementById('date-end').value;
+            document.getElementById('report-range-label').innerText='من '+ss+' إلى '+es;
+            var rr=0,sand=0; var rs=(appData.sales||[]).filter(s=>s.dateISO&&s.dateISO>=ss&&s.dateISO<=es);
+            document.getElementById('day-sales-body').innerHTML=rs.length===0?'<tr class="no-data-row"><td colspan="7">لا توجد</td></tr>':rs.map(s=>{var inv=s.invoiceNum?'#'+String(s.invoiceNum).padStart(5,'0'):'-';return '<tr data-clickable onclick="viewOrderDetails('+s.id+')"><td>'+s.id+'</td><td>'+inv+'</td><td>'+s.cashier+'</td><td>'+s.dateISO+'</td><td>'+s.items.length+' منتجات</td><td>'+s.total.toFixed(2)+'</td><td><span class="status-badge status-'+(s.status||'completed')+'">'+(s.status==='cancelled'?'ملغي':'مكتمل')+'</span></td></tr>';}).join('');
+            rs.forEach(s=>{if(s.status!=='cancelled'){rr+=s.total;(s.items||[]).forEach(i=>{if(i.cat==='سندوتشات'||(i.name&&i.name.includes('سندوتش')))sand+=i.price*i.qty;});}});
+            var re=(appData.expenses||[]).filter(e=>e.date>=ss&&e.date<=es); var ret=re.reduce((a,e)=>a+e.amount,0);
+            document.getElementById('day-expenses-body').innerHTML=re.length===0?'<tr class="no-data-row"><td colspan="4">لا توجد</td></tr>':re.map(e=>'<tr><td>'+e.desc+'</td><td>'+e.amount.toFixed(2)+'</td><td>'+e.date+'</td><td><button class="btn-sm btn-del" onclick="delExpense('+e.id+')">حذف</button></td></tr>').join('');
+            document.getElementById('rep-revenue').innerText=rr.toFixed(2); document.getElementById('rep-expenses').innerText=ret.toFixed(2);
+            var net=rr-ret; var ne=document.getElementById('rep-net'); ne.innerText=net.toFixed(2); ne.style.color=net>=0?'var(--success)':'var(--danger)';
+            document.getElementById('rep-sandwiches').innerText=sand.toFixed(2);
+            var cn=(appData.sales||[]).filter(s=>s.status==='cancelled');
+            document.getElementById('cancelled-sales-body').innerHTML=cn.length===0?'<tr class="no-data-row"><td colspan="5">لا توجد</td></tr>':cn.map(s=>{var inv=s.invoiceNum?'#'+String(s.invoiceNum).padStart(5,'0'):'-';return '<tr><td>'+s.id+'</td><td>'+inv+'</td><td>'+s.date+'</td><td>'+s.cashier+'</td><td>'+s.total.toFixed(2)+'</td></tr>';}).join('');
+        }
+        async function addExpense(){var p=getPermissions(currentUser.role);if(!p.expenses||appData.dayEnded)return showToast("غير مسموح","error");var d=document.getElementById('exp-desc').value.trim();var a=parseFloat(document.getElementById('exp-amount').value);if(!d||!a||a<=0){showToast("أكمل البيانات","error");return;}if(!appData.expenses)appData.expenses=[];appData.expenses.push({id:Date.now(),desc:d,amount:a,date:appData.businessDate||getTodayISO()});await saveField({expenses:appData.expenses});document.getElementById('exp-desc').value='';document.getElementById('exp-amount').value='';showToast("تم","success");}
+        async function delExpense(id){if(!getPermissions(currentUser.role).expenses||appData.dayEnded)return showToast("غير مسموح","error");if(!(await showConfirm("حذف المصروف؟")))return;appData.expenses=(appData.expenses||[]).filter(e=>e.id!==id);await saveField({expenses:appData.expenses});showToast("تم","success");}
+
+        /* ===== تفاصيل الطلب ===== */
+        function viewOrderDetails(id){var o=(appData.sales||[]).find(s=>s.id===id);if(!o)return;currentModalOrderId=id;document.getElementById('modal-order-id').innerText=o.id;document.getElementById('modal-date').innerText=o.date;document.getElementById('modal-cashier').innerText=o.cashier;document.getElementById('modal-total').innerText=o.total.toFixed(2)+' ج.م';document.getElementById('modal-status').innerHTML=o.status==='cancelled'?'<span class="status-badge status-cancelled">ملغي</span>':'<span class="status-badge status-completed">مكتمل</span>';document.getElementById('modal-items-list').innerHTML=(o.items||[]).map(i=>'<div class="order-detail-row"><span>'+i.name+' (×'+i.qty+')</span><span>'+(i.price*i.qty).toFixed(2)+' ج.م</span></div>').join('');document.getElementById('modal-cancel-area').style.display=o.status==='cancelled'?'none':'block';if(!getPermissions(currentUser.role).cancelOrders)document.getElementById('modal-cancel-area').style.display='none';document.getElementById('order-modal').style.display="flex";}
+        function closeOrderModal(){document.getElementById('order-modal').style.display="none";}
+        async function cancelOrderFromModal(){if(!getPermissions(currentUser.role).cancelOrders)return showToast("ليس لديك صلاحية","error");if(appData.dayEnded)return showToast("اليوم منتهي","error");if(!(await showConfirm("إلغاء الطلب؟")))return;var idx=(appData.sales||[]).findIndex(s=>s.id===currentModalOrderId);if(idx!==-1){appData.sales[idx].status='cancelled';await saveField({sales:appData.sales});showToast("تم","success");closeOrderModal();}}
+
+        /* ===== المنتجات ===== */
+        function renderCategoryManager(){var cats=(appData.categories||[]).filter(c=>c!=='الكل');document.getElementById('new-cat').innerHTML=cats.map(c=>'<option value="'+c+'">'+c+'</option>').join('');document.getElementById('cat-tags-container').innerHTML=cats.map(c=>'<span style="background:rgba(99,102,241,0.15);color:var(--primary);padding:5px 12px;border-radius:15px;cursor:pointer;font-size:0.88rem;" onclick="delCat(\''+c+'\')">'+c+' ❌</span>').join('');}
+        async function addCategory(){if(!getPermissions(currentUser.role).products||appData.dayEnded)return;var n=document.getElementById('new-cat-name').value.trim();if(!n){showToast("اكتب اسم","error");return;}if((appData.categories||[]).includes(n)){showToast("موجود","error");return;}if(!appData.categories)appData.categories=[];appData.categories.push(n);await saveField({categories:appData.categories});document.getElementById('new-cat-name').value='';showToast("تم","success");}
+        async function delCat(name){if(!getPermissions(currentUser.role).products||appData.dayEnded)return;if(!(await showConfirm('حذف "'+name+'"?')))return;appData.categories=(appData.categories||[]).filter(c=>c!==name);await saveField({categories:appData.categories});showToast("تم","success");}
+        function filterProducts(){var q=document.getElementById('search-prod').value.toLowerCase();renderProductsGrid((appData.products||[]).filter(p=>p.name.toLowerCase().includes(q)));}
+        function renderProductsGrid(list){var grid=document.getElementById('admin-products-grid');if(list.length===0){grid.innerHTML='<div style="grid-column:span 3;text-align:center;color:var(--text-muted);padding:40px;">لا توجد</div>';return;}grid.innerHTML=list.map(p=>'<div class="product-card"><div class="p-cat" style="background:rgba(99,102,241,0.1);color:var(--primary);padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:4px;">'+(p.cat||'')+'</div><div class="p-name" style="font-size:1.15rem;margin:4px 0;">'+p.name+'</div><div class="p-price" style="font-size:1.2rem;">'+p.price.toFixed(2)+' ج.م</div><div class="p-actions"><button class="btn-sm btn-edit" onclick="openEditProd('+p.id+')">تعديل</button><button class="btn-sm btn-del" onclick="delProd('+p.id+')">حذف</button></div></div>').join('');}
+        async function addProduct(){if(!getPermissions(currentUser.role).products||appData.dayEnded)return;var n=document.getElementById('new-name').value.trim();var p=parseFloat(document.getElementById('new-price').value);var c=document.getElementById('new-cat').value;if(!n||!p||p<=0){showToast("بيانات ناقصة","error");return;}if(!appData.products)appData.products=[];appData.products.push({id:Date.now(),name:n,price:p,cat:c});await saveField({products:appData.products});document.getElementById('new-name').value='';document.getElementById('new-price').value='';showToast("تم","success");}
+        async function delProd(id){if(!getPermissions(currentUser.role).products||appData.dayEnded)return;if(!(await showConfirm("حذف المنتج؟")))return;appData.products=(appData.products||[]).filter(p=>p.id!==id);await saveField({products:appData.products});showToast("تم","success");}
+        function openEditProd(id){if(!getPermissions(currentUser.role).products||appData.dayEnded)return;var p=(appData.products||[]).find(x=>x.id===id);if(!p)return;editingProductId=id;document.getElementById('edit-name').value=p.name;document.getElementById('edit-price').value=p.price;document.getElementById('edit-cat').innerHTML=(appData.categories||[]).filter(c=>c!=='الكل').map(c=>'<option value="'+c+'"'+(c===p.cat?' selected':'')+'>'+c+'</option>').join('');document.getElementById('edit-modal').style.display="flex";}
+        function closeEditModal(){document.getElementById('edit-modal').style.display="none";editingProductId=null;}
+        async function saveEditProduct(){var n=document.getElementById('edit-name').value.trim();var p=parseFloat(document.getElementById('edit-price').value);var c=document.getElementById('edit-cat').value;if(!n||!p||p<=0){showToast("خاطئ","error");return;}var pr=(appData.products||[]).find(x=>x.id===editingProductId);if(pr){pr.name=n;pr.price=p;pr.cat=c;}await saveField({products:appData.products});closeEditModal();showToast("تم","success");}
+
+        /* ===== المستخدمين ===== */
+        function renderUsersTable(){
+            if(!appData)return;
+            document.getElementById('users-body').innerHTML=(appData.users||[]).map(function(u){
+                var roleBadge='<span class="status-badge '+(ROLE_CSS[u.role]||'role-admin')+'">'+(ROLE_NAMES[u.role]||u.role)+'</span>';
+                var canManage=getPermissions(currentUser.role).users;
+                // لا أحد يقدر يعدل أو يحذف المدير العام (id=99) غير المدير العام نفسه
+                var isMainAdmin=u.id===99&&u.role==='admin';
+                var isSelf=u.id===currentUser.id;
+
+                var passCell='<div id="pass-cell-'+u.id+'" style="display:flex;align-items:center;gap:5px;"><span style="font-family:monospace;letter-spacing:3px;">'+u.pass+'</span></div><div id="pass-edit-'+u.id+'" style="display:none;align-items:center;gap:5px;"><input type="text" id="pass-new-'+u.id+'" class="input-field" style="width:90px;padding:5px 8px;" value="'+u.pass+'"></div>';
+                var passBtns=canManage&&!isMainAdmin?'<div id="pass-btns-'+u.id+'"><button class="btn-sm btn-edit" onclick="startEditPass('+u.id+')">🔑</button></div>':'-';
+                var roleBtns=canManage&&!isMainAdmin&&!isSelf?'<button class="btn-sm btn-edit" onclick="startEditRole('+u.id+')" style="background:var(--orange);flex:1;">⚙️</button>':'-';
+                var delBtns=canManage&&!isMainAdmin&&!isSelf?'<button class="btn-sm btn-del" onclick="delUser('+u.id+')">حذف</button>':'<span style="color:var(--text-muted);font-size:0.78rem;">—</span>';
+
+                return '<tr><td style="font-weight:bold;">'+u.name+'</td><td>'+roleBadge+'</td><td>'+passCell+'</td><td>'+passBtns+'</td><td>'+roleBtns+'</td><td>'+delBtns+'</td></tr>';
+            }).join('');
         }
 
-        async function addExpense() { if (appData.dayEnded) return showToast("اليوم منتهي", "error"); var desc = document.getElementById('exp-desc').value.trim(); var amount = parseFloat(document.getElementById('exp-amount').value); if (!desc || !amount || amount <= 0) { showToast("أكمل البيانات", "error"); return; } if (!appData.expenses) appData.expenses = []; appData.expenses.push({ id: Date.now(), desc: desc, amount: amount, date: appData.businessDate || getTodayISO() }); await saveField({ expenses: appData.expenses }); document.getElementById('exp-desc').value = ''; document.getElementById('exp-amount').value = ''; showToast("تم الإضافة", "success"); }
-        async function delExpense(id) { if (appData.dayEnded) return showToast("اليوم منتهي", "error"); if (!(await showConfirm("حذف المصروف؟"))) return; appData.expenses = (appData.expenses || []).filter(e => e.id !== id); await saveField({ expenses: appData.expenses }); showToast("تم الحذف", "success"); }
+        function startEditPass(id){document.getElementById('pass-cell-'+id).style.display='none';document.getElementById('pass-edit-'+id).style.display='flex';document.getElementById('pass-btns-'+id).innerHTML='<button class="btn-sm" style="background:var(--success)" onclick="saveNewPass('+id+')">✓</button> <button class="btn-sm btn-del" onclick="cancelEditPass('+id+')">✗</button>';document.getElementById('pass-new-'+id).focus();}
+        function cancelEditPass(id){document.getElementById('pass-cell-'+id).style.display='flex';document.getElementById('pass-edit-'+id).style.display='none';document.getElementById('pass-btns-'+id).innerHTML='<button class="btn-sm btn-edit" onclick="startEditPass('+id+')">🔑</button>';}
+        async function saveNewPass(id){var p=document.getElementById('pass-new-'+id).value.trim();if(!p){showToast("أدخل الباسورد","error");return;}var u=(appData.users||[]).find(x=>x.id===id);if(u){u.pass=p;await saveField({users:appData.users});showToast("تم تغيير الباسورد","success");}}
 
-        function viewOrderDetails(id) { var o = (appData.sales || []).find(s => s.id === id); if (!o) return; currentModalOrderId = id; document.getElementById('modal-order-id').innerText = o.id; document.getElementById('modal-date').innerText = o.date; document.getElementById('modal-cashier').innerText = o.cashier; document.getElementById('modal-total').innerText = o.total.toFixed(2) + ' ج.م'; document.getElementById('modal-status').innerHTML = o.status === 'cancelled' ? '<span class="status-badge status-cancelled">ملغي</span>' : '<span class="status-badge status-completed">مكتمل</span>'; document.getElementById('modal-items-list').innerHTML = (o.items || []).map(i => '<div class="order-detail-row"><span>' + i.name + ' (×' + i.qty + ')</span><span>' + (i.price * i.qty).toFixed(2) + ' ج.م</span></div>').join(''); document.getElementById('modal-cancel-area').style.display = o.status === 'cancelled' ? 'none' : 'block'; document.getElementById('order-modal').style.display = "flex"; }
-        function closeOrderModal() { document.getElementById('order-modal').style.display = "none"; }
-        async function cancelOrderFromModal() { if (appData.dayEnded) return showToast("اليوم منتهي", "error"); if (!(await showConfirm("إلغاء الطلب؟"))) return; var idx = (appData.sales || []).findIndex(s => s.id === currentModalOrderId); if (idx !== -1) { appData.sales[idx].status = 'cancelled'; await saveField({ sales: appData.sales }); showToast("تم الإلغاء", "success"); closeOrderModal(); } }
+        /* تعديل صلاحية مستخدم */
+        function startEditRole(id){
+            var u=(appData.users||[]).find(x=>x.id===id);
+            if(!u)return;
+            var cell=document.querySelector('tr td:nth-child(5)');
+            cell.innerHTML='<select id="role-select-'+id+'" class="input-field" style="padding:5px 8px;font-size:0.85rem;"><option value="admin"'+(u.role==='admin'?' selected':'')+'>🔴 مدير كامل</option><option value="sales"'+(u.role==='sales'?' selected':'')+'>🔵 مدير مبيعات</option><option value="reports"'+(u.role==='reports'?' selected':'')+'>🟢 مشاهد تقارير</option></select><button class="btn-sm" style="background:var(--success);margin-right:5px;" onclick="saveNewRole('+id+')">✓</button><button class="btn-sm btn-del" onclick="renderUsersTable()">✗</button>';
+        }
+        async function saveNewRole(id){
+            var sel=document.getElementById('role-select-'+id);
+            if(!sel)return;
+            var u=(appData.users||[]).find(x=>x.id===id);
+            if(u){
+                u.role=sel.value;
+                await saveField({users:appData.users});
+                showToast('تم تغيير صلاحية '+u.name,'success');
+                // لو المستخدم عدل نفسه، نحدّث currentUser
+                if(id===currentUser.id){currentUser.role=u.role;applyPermissions();}
+                renderUsersTable();
+            }
+        }
 
-        function renderCategoryManager() { if (!appData) return; var cats = (appData.categories || []).filter(c => c !== 'الكل'); document.getElementById('new-cat').innerHTML = cats.map(c => '<option value="' + c + '">' + c + '</option>').join(''); document.getElementById('cat-tags-container').innerHTML = cats.map(c => '<span style="background:rgba(99,102,241,0.15); color:var(--primary); padding:6px 12px; border-radius:15px; cursor:pointer; font-size:0.9rem;" onclick="delCat(\'' + c + '\')">' + c + ' ❌</span>').join(''); }
-        async function addCategory() { if (appData.dayEnded) return showToast("اليوم منتهي", "error"); var n = document.getElementById('new-cat-name').value.trim(); if (!n) { showToast("اكتب اسم القسم", "error"); return; } if ((appData.categories || []).includes(n)) { showToast("موجود", "error"); return; } if (!appData.categories) appData.categories = []; appData.categories.push(n); await saveField({ categories: appData.categories }); document.getElementById('new-cat-name').value = ''; showToast("تم", "success"); }
-        async function delCat(name) { if (appData.dayEnded) return showToast("اليوم منتهي", "error"); if (!(await showConfirm('حذف "' + name + '"؟'))) return; appData.categories = (appData.categories || []).filter(c => c !== name); await saveField({ categories: appData.categories }); showToast("تم", "success"); }
-        function filterProducts() { var q = document.getElementById('search-prod').value.toLowerCase(); renderProductsGrid((appData.products || []).filter(p => p.name.toLowerCase().includes(q))); }
-        function renderProductsGrid(list) { var grid = document.getElementById('admin-products-grid'); if (list.length === 0) { grid.innerHTML = '<div style="grid-column:span 3;text-align:center;color:var(--text-muted);padding:40px;">لا توجد منتجات</div>'; return; } grid.innerHTML = list.map(p => '<div class="product-card"><div class="p-cat" style="background:rgba(99,102,241,0.1);color:var(--primary);padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:5px;">' + (p.cat || '') + '</div><div class="p-name" style="font-size:1.2rem;margin:5px 0;">' + p.name + '</div><div class="p-price" style="font-size:1.3rem;">' + p.price.toFixed(2) + ' ج.م</div><div class="p-actions"><button class="btn-sm btn-edit" onclick="openEditProd(' + p.id + ')">تعديل</button><button class="btn-sm btn-del" onclick="delProd(' + p.id + ')">حذف</button></div></div>').join(''); }
-        async function addProduct() { if (appData.dayEnded) return showToast("اليوم منتهي", "error"); var name = document.getElementById('new-name').value.trim(); var price = parseFloat(document.getElementById('new-price').value); var cat = document.getElementById('new-cat').value; if (!name || !price || price <= 0) { showToast("بيانات ناقصة", "error"); return; } if (!appData.products) appData.products = []; appData.products.push({ id: Date.now(), name: name, price: price, cat: cat }); await saveField({ products: appData.products }); document.getElementById('new-name').value = ''; document.getElementById('new-price').value = ''; showToast("تم", "success"); }
-        async function delProd(id) { if (appData.dayEnded) return showToast("اليوم منتهي", "error"); if (!(await showConfirm("حذف المنتج؟"))) return; appData.products = (appData.products || []).filter(p => p.id !== id); await saveField({ products: appData.products }); showToast("تم", "success"); }
-        function openEditProd(id) { if (appData.dayEnded) return showToast("اليوم منتهي", "error"); var p = (appData.products || []).find(x => x.id === id); if (!p) return; editingProductId = id; document.getElementById('edit-name').value = p.name; document.getElementById('edit-price').value = p.price; document.getElementById('edit-cat').innerHTML = (appData.categories || []).filter(c => c !== 'الكل').map(c => '<option value="' + c + '"' + (c === p.cat ? ' selected' : '') + '>' + c + '</option>').join(''); document.getElementById('edit-modal').style.display = "flex"; }
-        function closeEditModal() { document.getElementById('edit-modal').style.display = "none"; editingProductId = null; }
-        async function saveEditProduct() { var name = document.getElementById('edit-name').value.trim(); var price = parseFloat(document.getElementById('edit-price').value); var cat = document.getElementById('edit-cat').value; if (!name || !price || price <= 0) { showToast("بيانات خاطئة", "error"); return; } var p = (appData.products || []).find(x => x.id === editingProductId); if (p) { p.name = name; p.price = price; p.cat = cat; } await saveField({ products: appData.products }); closeEditModal(); showToast("تم", "success"); }
+        async function addUser(){
+            if(!getPermissions(currentUser.role).users)return;
+            var n=document.getElementById('user-name').value.trim();
+            var p=document.getElementById('user-pass').value.trim();
+            var r=document.getElementById('user-role').value;
+            if(!n||!p){showToast("أكمل البيانات","error");return;}
+            if((appData.users||[]).find(u=>u.name===n)){showToast("الاسم موجود","error");return;}
+            if(!appData.users)appData.users=[];
+            appData.users.push({id:Date.now(),name:n,pass:p,role:r});
+            await saveField({users:appData.users});
+            document.getElementById('user-name').value='';document.getElementById('user-pass').value='';
+            showToast('تم إضافة: '+n+' ('+ROLE_NAMES[r]+')','success');
+        }
+        async function delUser(id){
+            if(!getPermissions(currentUser.role).users)return;
+            if(!(await showConfirm("حذف هذا المستخدم نهائياً؟")))return;
+            appData.users=(appData.users||[]).filter(u=>u.id!==id);
+            await saveField({users:appData.users});
+            showToast("تم الحذف","success");
+        }
 
-        function renderUsersTable() { if (!appData) return; document.getElementById('users-body').innerHTML = (appData.users || []).map(u => '<tr><td style="font-weight:bold;">' + u.name + '</td><td><span class="status-badge ' + (u.role === 'admin' ? 'status-cancelled' : 'status-completed') + '">' + (u.role === 'admin' ? 'مدير' : 'كاشير') + '</span></td><td><div id="pass-cell-' + u.id + '" style="display:flex;align-items:center;gap:5px;"><span style="font-family:monospace;letter-spacing:3px;">' + u.pass + '</span></div><div id="pass-edit-' + u.id + '" style="display:none;align-items:center;gap:5px;"><input type="text" id="pass-new-' + u.id + '" class="input-field" style="width:90px;padding:5px 8px;" value="' + u.pass + '"></div></td><td>' + (u.role !== 'admin' ? '<div id="pass-btns-' + u.id + '"><button class="btn-sm btn-edit" onclick="startEditPass(' + u.id + ')">🔑</button></div>' : '-') + '</td><td>' + (u.role !== 'admin' ? '<button class="btn-sm btn-del" onclick="delUser(' + u.id + ')">حذف</button>' : '-') + '</td></tr>').join(''); }
-        function startEditPass(id) { if (appData.dayEnded) return showToast("اليوم منتهي", "error"); document.getElementById('pass-cell-' + id).style.display = 'none'; document.getElementById('pass-edit-' + id).style.display = 'flex'; document.getElementById('pass-btns-' + id).innerHTML = '<button class="btn-sm" style="background:var(--success)" onclick="saveNewPass(' + id + ')">✓</button> <button class="btn-sm btn-del" onclick="cancelEditPass(' + id + ')">✗</button>'; }
-        function cancelEditPass(id) { document.getElementById('pass-cell-' + id).style.display = 'flex'; document.getElementById('pass-edit-' + id).style.display = 'none'; document.getElementById('pass-btns-' + id).innerHTML = '<button class="btn-sm btn-edit" onclick="startEditPass(' + id + ')">🔑</button>'; }
-        async function saveNewPass(id) { var p = document.getElementById('pass-new-' + id).value.trim(); if (!p) { showToast("أدخل كلمة المرور", "error"); return; } var u = (appData.users || []).find(x => x.id === id); if (u) { u.pass = p; await saveField({ users: appData.users }); showToast("تم", "success"); } }
-        async function addUser() { if (appData.dayEnded) return showToast("اليوم منتهي", "error"); var n = document.getElementById('user-name').value.trim(); var p = document.getElementById('user-pass').value.trim(); if (!n || !p) { showToast("أكمل البيانات", "error"); return; } if ((appData.users || []).find(u => u.name === n)) { showToast("موجود", "error"); return; } if (!appData.users) appData.users = []; appData.users.push({ id: Date.now(), name: n, pass: p, role: 'cashier' }); await saveField({ users: appData.users }); document.getElementById('user-name').value = ''; document.getElementById('user-pass').value = ''; showToast("تم", "success"); }
-        async function delUser(id) { if (appData.dayEnded) return showToast("اليوم منتهي", "error"); if (!(await showConfirm("حذف الكاشير؟"))) return; appData.users = (appData.users || []).filter(u => u.id !== id); await saveField({ users: appData.users }); showToast("تم", "success"); }
+        /* ===== إغلاق ===== */
+        window.addEventListener('click',function(e){if(e.target===document.getElementById('order-modal'))closeOrderModal();if(e.target===document.getElementById('edit-modal'))closeEditModal();if(e.target===document.getElementById('confirm-modal')){document.getElementById('confirm-modal').style.display='none';if(confirmResolve)confirmResolve(false);confirmResolve=null;}});
+        document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeOrderModal();closeEditModal();document.getElementById('confirm-modal').style.display='none';if(confirmResolve)confirmResolve(false);confirmResolve=null;}});
 
-        window.addEventListener('click', function(e) { if (e.target === document.getElementById('order-modal')) closeOrderModal(); if (e.target === document.getElementById('edit-modal')) closeEditModal(); if (e.target === document.getElementById('confirm-modal')) { document.getElementById('confirm-modal').style.display = 'none'; if (confirmResolve) confirmResolve(false); confirmResolve = null; } });
-        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { closeOrderModal(); closeEditModal(); document.getElementById('confirm-modal').style.display = 'none'; if (confirmResolve) confirmResolve(false); confirmResolve = null; } });
-
-        document.getElementById('date-start').value = getTodayISO();
-        document.getElementById('date-end').value = getTodayISO();
+        document.getElementById('date-start').value=getTodayISO();
+        document.getElementById('date-end').value=getTodayISO();
         startFirebaseListener();
     </script>
 </body>
