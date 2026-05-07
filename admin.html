@@ -163,6 +163,151 @@
         .flex { display: flex !important; }
         ::-webkit-scrollbar { width: 7px; }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        /* تنسيقات خاصة بالجوال فقط */
+@media (max-width: 768px) {
+    /* تعديل شاشة تسجيل الدخول */
+    .login-card {
+        width: 95%;
+        padding: 15px;
+    }
+    .users-login-grid {
+        grid-template-columns: 1fr; /* مستخدم واحد في الصف */
+    }
+
+    /* تحويل القائمة الجانبية إلى قائمة مخفية تظهر عند الضغط */
+    .sidebar {
+        position: fixed;
+        right: -280px; /* مخفية خارج الشاشة */
+        top: 0;
+        bottom: 0;
+        z-index: 999;
+        transition: 0.3s;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+    }
+    .sidebar.active {
+        right: 0; /* تظهر عند إضافة كلاس active */
+    }
+
+    /* زر القائمة للجوال */
+    #mobile-menu-btn {
+        display: block;
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        font-family: 'Tajawal';
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    /* تعديل الجداول لتكون قابلة للتمرير */
+    .table-container {
+        overflow-x: auto;
+    }
+    table {
+        min-width: 600px; /* لضمان عدم تداخل النصوص */
+    }
+
+    /* تعديل توزيع الإحصائيات */
+    .stats-grid {
+        grid-template-columns: 1fr 1fr; /* بطاقتين في الصف */
+    }
+
+    /* تعديل المودال (النافذة المنبثقة) */
+    .modal-content {
+        width: 95%;
+        padding: 15px;
+    }
+}
+
+/* إخفاء زر الجوال في شاشات الكمبيوتر */
+@media (min-width: 769px) {
+    #mobile-menu-btn {
+        display: none;
+    }
+}
+/* تحسينات الجوال */
+@media (max-width: 768px) {
+    /* 1. القائمة الجانبية: تصبح مخفية وتظهر كطبقة فوق المحتوى */
+    .sidebar {
+        position: fixed;
+        right: -280px; /* مخفية خارج الشاشة يميناً */
+        top: 0;
+        bottom: 0;
+        z-index: 9999;
+        transition: 0.3s ease;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+    }
+    
+    .sidebar.active {
+        right: 0; /* تظهر عند إضافة كلاس active */
+    }
+
+    /* 2. الإحصائيات: جعلها بطاقتين في كل سطر بدلاً من واحدة */
+    .stats-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+    }
+
+    /* 3. شاشة تسجيل الدخول: تصغير البطاقة لتناسب حجم الشاشة */
+    .login-card {
+        width: 95% !important;
+        padding: 15px !important;
+    }
+    
+    .users-login-grid {
+        grid-template-columns: 1fr !important; /* مستخدم واحد في السطر */
+    }
+
+    /* 4. الجداول: السماح بالتمرير الجانبي للجداول الطويلة */
+    .table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    table {
+        min-width: 600px; /* تضمن عدم انضغاط البيانات */
+    }
+
+    /* 5. النوافذ المنبثقة (Modals) */
+    .modal-content {
+        width: 95% !important;
+        padding: 15px !important;
+        margin: 10px;
+    }
+
+    /* 6. أزرار إضافة المنتجات: جعلها تحت بعضها لتسهيل الكتابة */
+    .add-panel {
+        flex-direction: column;
+        align-items: stretch !important;
+    }
+    
+    .input-group {
+        width: 100%;
+    }
+
+    /* 7. زر القائمة للجوال (Menu Button) */
+    #mobile-menu-btn {
+        display: block !important;
+        position: sticky;
+        top: 10px;
+        z-index: 1000;
+        margin-bottom: 15px;
+        width: 100%;
+        background: var(--primary);
+        padding: 12px;
+        border-radius: 10px;
+    }
+}
+
+/* إخفاء زر الجوال في شاشات الكمبيوتر */
+@media (min-width: 769px) {
+    #mobile-menu-btn {
+        display: none !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -264,7 +409,10 @@
             </div>
         </aside>
         <main class="content-area">
+            <button id="mobile-menu-btn" onclick="toggleSidebar()">☰ القائمة الرئيسية</button>
             <div id="day-ended-banner">
+                <!-- أضف هذا الزر داخل content-area في الأعلى -->
+
                 <h3>🔒 يوم العمل منتهي</h3>
                 <p>تم إنهاء يوم: <span class="banner-date" id="banner-end-date"></span></p>
                 <p>اليوم التالي: <span class="banner-next" id="banner-next-date"></span></p>
@@ -794,6 +942,47 @@
         document.getElementById('date-start').value=getTodayISO();
         document.getElementById('date-end').value=getTodayISO();
         startFirebaseListener();
+        function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('active');
+}
+
+// إغلاق القائمة تلقائياً عند الضغط على أي عنصر في الجوال
+document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+            document.querySelector('.sidebar').classList.remove('active');
+        }
+    });
+});
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('active');
+    
+    // إضافة تظليل خلف القائمة عند فتحها
+    let overlay = document.getElementById('sidebar-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'sidebar-overlay';
+        overlay.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9998;";
+        overlay.onclick = toggleSidebar;
+        document.body.appendChild(overlay);
+    } else {
+        overlay.remove();
+    }
+}
+
+// إغلاق القائمة تلقائياً عند اختيار أي قسم (في الجوال فقط)
+document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+            const sidebar = document.querySelector('.sidebar');
+            if(sidebar.classList.contains('active')) {
+                toggleSidebar();
+            }
+        }
+    });
+});
     </script>
 </body>
-</html>
+</html> 
